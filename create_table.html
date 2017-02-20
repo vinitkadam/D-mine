@@ -71,13 +71,10 @@
   </script>
 
 <!-- side navigation bar start -->
-
-    <nav class="w3-sidenav w3-signal-red" style="width:160px;">
+  <nav class="w3-sidenav w3-signal-red" style="width:160px;">
 <br>
-    <a href="index.html"><i class="fa fa-home"></i> HOME</a>
-    
-<!-- DDL START -->
-	<div class="w3-accordion">
+    <a href="#"><i class="fa fa-home"></i> HOME</a>
+    <div class="w3-accordion">
       <a onclick="DropdownFunc(ddl)" href="#">
       <i class="fa fa-plus-square-o"></i> DDL <i class="fa fa-caret-down"></i>
       </a>
@@ -107,21 +104,21 @@
           </div>
 		</div>
 		<!--DDL-Drop-->
-          <a onclick="DropdownFunc(dropdrop)" href="#">
-            <i class="fa fa-angle-right"></i>Drop<i class="fa fa-caret-down"></i>
-          </a> 
- 		<div id="dropdrop" class="w3-accordion-content w3-white"  >
-            <a href="drop_database.html"><i class="fa fa-toggle-right"></i> Database</a>
-            <a href="drop_table.html"><i class="fa fa-toggle-right"></i> Table</a>
-          </div>
+		<a onclick="DropdownFunc(dropdrop)" href="#">
+			<i class="fa fa-angle-right"></i>Drop<i class="fa fa-caret-down"></i>
+		</a> 
+		<div id="dropdrop" class="w3-accordion-content w3-white"  >
+			<a href="drop_database.html"><i class="fa fa-toggle-right"></i> Database</a>
+			<a href="drop_table.html"><i class="fa fa-toggle-right"></i> Table</a>
+		</div>
 		<!--DDL-Truncate-->
         <a href="#"><i class="fa fa-angle-right"></i> Truncate</a>
 
       </div>
 	  
-    </div>
 
-<!-- DML START -->	
+      
+    </div>
     <div class="w3-accordion">
       <a onclick="DropdownFunc(dml)" href="#">
       <i class="fa fa-plus-square-o"></i> DML <i class="fa fa-caret-down"></i>
@@ -136,7 +133,6 @@
     <a href="#"><i class="fa fa-globe"></i> HELP</a>
   </nav>
 <!-- side navigation bar end -->
-
 
   <div class="w3-main" style="margin-left:160px">
 
