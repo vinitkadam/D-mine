@@ -82,7 +82,7 @@ case "DropDatabase":
       echo "Database does not exist..!";
     }
     break;
-	
+
 case "TruncateTable":
 	$DB_Name=$_POST['dbName'];
 	$query_Stat=$_POST['Query'];
@@ -99,6 +99,7 @@ case "TruncateTable":
 		echo "Database does not exist";
 	}
 	break;
+
 default:
     echo "Nothing to show";
 }
