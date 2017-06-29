@@ -22,7 +22,7 @@
           x.previousElementSibling.className.replace("w3-signal-red", "");
         }
       }
-	  
+
 	  //when drop button is clicked this logic will run
 		$(document).ready(function(){
           $("#drop").click(function(){
@@ -55,21 +55,21 @@
             }
         });
       });
-      
+
  //when reset button is clicked this logic reset input field and alertmsg
       $(document).ready(function(){
           $("#RESET").click(function(){
               var name = $("#dbnameInput").val();
               var inputfield1 = document.getElementById('dbnameInput');
               inputfield1.value= inputfield1.defaultValue;
-			  
+
 			  var cmd = "DROP DATABASE ";
               document.getElementById("alertBox").innerHTML="";
               $("#alertBoxMain").hide();
               document.getElementById("cmdWindow").innerHTML=cmd;
             });
           });
- 
+
   </script>
 
     <nav class="w3-sidenav w3-signal-red" style="width:160px;">
@@ -79,11 +79,11 @@
       <a onclick="DropdownFunc(ddl)" href="#">
       <i class="fa fa-plus-square-o"></i> DDL <i class="fa fa-caret-down"></i>
       </a>
-	 
+
       <div id="ddl" class="w3-accordion-content w3-white">
 	     <!--DDL-CREATE-->
-         <div class="w3-accordion">           
-		 
+         <div class="w3-accordion">
+
           <a onclick="DropdownFunc(dropcreate)" href="#">
             <i class="fa fa-angle-right"></i> Create <i class="fa fa-caret-down"></i>
           </a>
@@ -91,23 +91,16 @@
             <a href="create_DB.html"><i class="fa fa-toggle-right"></i> Database</a>
             <a href="create_table.html"><i class="fa fa-toggle-right"></i> Table</a>
           </div>
-  
+
 		</div>
 		<!--DDL-ALTER-->
-		    <div class="w3-accordion">
-          <a onclick="DropdownFunc(dropalter)" href="#">
-            <i class="fa fa-angle-right"></i> Alter <i class="fa fa-caret-down"></i>
-          </a>
-          <div id="dropalter" class="w3-accordion-content w3-white"  >
-            <a href="#"><i class="fa fa-toggle-right"></i> Add</a>
-            <a href="#"><i class="fa fa-toggle-right"></i> Modify</a>
-			 <a href="#"><i class="fa fa-toggle-right"></i> Drop</a>
-          </div>
-		</div>
+    <a href="#">
+      <i class="fa fa-angle-right"></i> Alter </i>
+    </a>
 		<!--DDL-Drop-->
           <a onclick="DropdownFunc(dropdrop)" href="#">
-            <i class="fa fa-angle-right"></i>Drop<i class="fa fa-caret-down"></i>
-          </a> 
+            <i class="fa fa-angle-right"></i> Drop <i class="fa fa-caret-down"></i>
+          </a>
  		<div id="dropdrop" class="w3-accordion-content w3-white"  >
             <a href="drop_database.html"><i class="fa fa-toggle-right"></i> Database</a>
             <a href="drop_table.html"><i class="fa fa-toggle-right"></i> Table</a>
@@ -116,11 +109,11 @@
         <a href="truncate.html"><i class="fa fa-angle-right"></i> Truncate</a>
 
       </div>
-	  
 
-      
+
+
     </div>
-  
+
     <div class="w3-accordion">
       <a onclick="DropdownFunc(dml)" href="#">
       <i class="fa fa-plus-square-o"></i> DML <i class="fa fa-caret-down"></i>
@@ -170,8 +163,8 @@
 				<div class="w3-container w3-border">
                   <p><label class="w3-label w3-text-blue">Database Name<span class="w3-text-red">*</span>:</label>
                   <input id="dbnameInput" class="w3-input w3-border-bottom" type="text"></p>
-                  
-                  
+
+
                   <p class="w3-right"><button id="drop" class="w3-btn w3-signal-red w3-round-xlarge">DROP</button>
 				  <button id="RESET" class="w3-btn w3-signal-red w3-round-xlarge">RESET</button></p>
                 </div>
