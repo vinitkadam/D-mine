@@ -8,22 +8,28 @@ $tags=$_POST['tag'];
 //main logic
 switch ($tags)
 {
-case "DropColumn":
-	$DB_Name=$_POST['dbName'];
-	$query_Stat=$_POST['Query'];
-	if($conn->select_db($DB_Name))
-    {
-      $sql = $query_Stat;
-      if ($conn->query($sql) === TRUE) {
-          echo "Column dropped successfully";
-      } else {
-          echo "Error dropping Column: " . $conn->error;
-      }
-    }
-    else {
-      echo "Database does not exist..!";
-    }
-    break;
+case "addcol":
+//echo "you r trying to add column!!";
+$DBName=$_POST['db'];
+$tb=$_POST['tb'];
+$cn=$_POST['cn'];
+$dt=$_POST['dt'];
+$size=$_POST['size'];
+if($cn!='' && $dt!='' && $size!='')
+{
+  $sql="ALTER TABLE $tb ADD $cn $dt($size);";
+  if($conn->select_db($DBName)){
+  if($conn->query($sql) === TRUE)
+  {
+    echo "column added successfully,refresh to see result...";
+  }
+  else
+    echo "Error: " . $conn->error;
+}
+}
+else
+echo "Enter value...";
+break;
 
 case "createDatabase":
 
@@ -99,6 +105,24 @@ case "DropDatabase":
       echo "Database does not exist..!";
     }
     break;
+
+case "TruncateTable":
+	$DB_Name=$_POST['dbName'];
+	$query_Stat=$_POST['Query'];
+	if($conn->select_db($DB_Name))
+	{
+		if($conn->query($query_Stat)=== TRUE){
+			echo "Table truncated succesfully";
+		}
+		else{
+			echo "error truncating database"; 
+		}
+	}
+	else {
+		echo "Database does not exist";
+	}
+	break;
+
 default:
     echo "Nothing to show";
 }
