@@ -8,6 +8,29 @@ $tags=$_POST['tag'];
 //main logic
 switch ($tags)
 {
+case "addcol":
+//echo "you r trying to add column!!";
+$DBName=$_POST['db'];
+$tb=$_POST['tb'];
+$cn=$_POST['cn'];
+$dt=$_POST['dt'];
+$size=$_POST['size'];
+if($cn!='' && $dt!='' && $size!='')
+{
+  $sql="ALTER TABLE $tb ADD $cn $dt($size);";
+  if($conn->select_db($DBName)){
+  if($conn->query($sql) === TRUE)
+  {
+    echo "column added successfully,refresh to see result...";
+  }
+  else
+    echo "Error: " . $conn->error;
+}
+}
+else
+echo "Enter value...";
+break;
+
 case "createDatabase":
 
     $DBName=$_POST['dbName'];
