@@ -22,14 +22,22 @@
           x.previousElementSibling.className.replace("w3-signal-red", "");
         }
       }
+
+
+    function AddTagsOnclick(T)
+    {
+          var box = $("#sqlcmdarea");
+          box.val(box.val() +" "+ T);
+    }
+
   //when create button is clicked this logic send data and recieve result from queryExecutor
       $(document).ready(function(){
-          $("#CRE").click(function(){
+          $("#run").click(function(){
             var alertMsg="";
-            var name = $("#dbnameInput").val();
-            var tago="createDatabase";
-            var dataString = 'tag='+ tago + '&dbName='+ name;
-            if(name=='')
+            var SelCmd = $("#sqlcmdarea").val();
+            var tago="SelectExecution";
+            var dataString = 'tag='+ tago + '&SelCmd='+ SelCmd;
+            if(SelCmd=='')
             {
                 alertMsg="Please Fill All Field";
                 $("#alertBoxMain").show();
@@ -43,9 +51,9 @@
                   data: dataString,
                   success: function(result){
                     alertMsg=result;
-                    var cmd = "CREATE DATABASE '"+name+"';";
-                    $("#alertBoxMain").show();
-                    document.getElementById("alertBox").innerHTML=alertMsg;
+                    var cmd = SelCmd;
+                    document.getElementById('id01').style.display='block'
+                    document.getElementById("DSHOW").innerHTML=alertMsg;
                     document.getElementById("cmdWindow").innerHTML=cmd;
                   }
                   });
@@ -55,13 +63,10 @@
 
   //when reset button is clicked this logic reset input field and alertmsg
       $(document).ready(function(){
-          $("#RESET").click(function(){
-              var name = $("#dbnameInput").val();
-              var inputfield= document.getElementById('dbnameInput');
+          $("#clear").click(function(){
+              var inputfield= document.getElementById('sqlcmdarea');
               inputfield.value= inputfield.defaultValue;
-              var cmd = "CREATE DATABASE ";
-              document.getElementById("alertBox").innerHTML="";
-              $("#alertBoxMain").hide();
+              var cmd = "SELECT ";
               document.getElementById("cmdWindow").innerHTML=cmd;
             });
           });
@@ -161,17 +166,117 @@
                 </div>
                 <!-- Alert Box Section by default its hidden end-->
 
-                <div class="w3-container w3-border">
 
+                  <textarea class="w3-light-grey" id ="sqlcmdarea" name="message" rows="7" cols="105"></textarea>
+                  <br>
+                <div class="w3-container w3-border">
+                  <p>
+                    <div id="SELECT" class="w3-tag w3-round w3-hover-red w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      SELECT
+                    </div>
+                    <div id="SELECT *" class="w3-tag w3-round w3-hover-red w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      SELECT *
+                    </div>
+                    <div id="FROM" class="w3-tag w3-round w3-hover-red w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      FROM
+                    </div>
+                    <div id="*" class="w3-tag w3-round w3-hover-red  w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      *
+                    </div>
+                    <div id="WHERE" class="w3-tag w3-round w3-hover-red w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      WHERE
+                    </div>
+                    <div id="ORDER BY" class="w3-tag w3-round w3-hover-red w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      ORDER BY
+                    </div>
+                    <div id="ASC" class="w3-tag w3-round w3-hover-red w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      ASC
+                    </div>
+                    <div id="DESC" class="w3-tag w3-round w3-hover-red w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      DESC
+                    </div>
+                    <div id="INNER JOIN" class="w3-tag w3-round w3-hover-red w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      INNER JOIN
+                    </div>
+                    <div id="LEFT JOIN" class="w3-tag w3-round w3-hover-red w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      LEFT JOIN
+                    </div>
+                    <div id="RIGHT JOIN" class="w3-tag w3-round w3-hover-red w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      RIGHT JOIN
+                    </div>
+                  </p>
+
+                  <p>
+                    <div id="OUTER JOIN" class="w3-tag w3-round w3-hover-red w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      OUTER JOIN
+                    </div>
+                    <div id="AS" class="w3-tag w3-round w3-hover-red w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      AS
+                    </div>
+                    <div id="BETWEEN" class="w3-tag w3-round w3-hover-red  w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      BETWEEN
+                    </div>
+                    <div id="AVG()" class="w3-tag w3-round w3-hover-red w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      AVG()
+                    </div>
+                    <div id="COUNT()" class="w3-tag w3-round  w3-hover-red w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      COUNT()
+                    </div>
+                    <div id="LIKE" class="w3-tag w3-round w3-hover-red  w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      LIKE
+                    </div>
+                    <div id="LIMIT" class="w3-tag w3-round w3-hover-red  w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      LIMIT
+                    </div>
+                    <div id="MAX()" class="w3-tag w3-round w3-hover-red  w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      MAX()
+                    </div>
+                    <div id="MIN()" class="w3-tag w3-round w3-hover-red  w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      MIN()
+                    </div>
+                    <div id="ROUND()" class="w3-tag w3-round w3-hover-red  w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      ROUND()
+                    </div>
+                    <div id="SUM()" class="w3-tag w3-round w3-hover-red  w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      SUM()
+                    </div>
+                    <div id="ON" class="w3-tag w3-round w3-hover-red w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      ON
+                    </div>
+                  </p>
+
+                  <p>
+
+                    <div id="AND" class="w3-tag w3-round w3-hover-red w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      AND
+                    </div>
+                    <div id="DISTINCT" class="w3-tag w3-round w3-hover-red  w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      DISTINCT
+                    </div>
+                  </p>
 
                 </div>
-            </div>
+                <div class="w3-container w3-center">
+                <p><button id = "clear" class="w3-btn w3-round-xlarge w3-signal-red">CLEAR</button>
+                <button id = "run" class="w3-btn w3-round-xlarge w3-signal-red">RUN</button></p></div>
+
+              </div>
             <!-- Action section end -->
             <!-- flow Chart section start -->
             <div id="chartWindow" class="w3-container w3-layout-col w3-bottombar w3-rightbar w3-border-light-grey" >
               <p>chart</p>
             </div>
             <!-- flow Chart section start end -->
+        </div>
+
+        <div id="id01" class="w3-modal">
+          <div class="w3-modal-content">
+            <div class="w3-container">
+              <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+              <div id="DSHOW" class="w3-container"></div>
+
+            </div>
+          </div>
         </div>
 
     <footer class="w3-container w3-light-grey w3-border-top">

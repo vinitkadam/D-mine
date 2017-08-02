@@ -64,8 +64,8 @@ case "DropTable":
       echo "Database is not selected..!";
     }
     break;
-	
-	
+
+
 case "DropDatabase":
 	$DB_Name=$_POST['dbName'];
 	$query_Stat=$_POST['Query'];
@@ -92,13 +92,35 @@ case "TruncateTable":
 			echo "Table truncated succesfully";
 		}
 		else{
-			echo "error truncating database"; 
+			echo "error truncating database";
 		}
 	}
 	else {
 		echo "Database does not exist";
 	}
 	break;
+
+case "SelectExecution":
+  $Sel_Cmd=$_POST['SelCmd'];
+  $DB_Name="dsd";
+  if($conn->select_db($DB_Name))
+	{
+    if ($result = $conn->query($Sel_Cmd)) {
+
+
+        while ($finfo = $result->fetch_field())
+        {
+          printf("%s\n", $finfo->name);
+          while ($row = $result->fetch_assoc())
+          {
+                 printf ("%s\n", $row["$finfo->name"]);
+          }
+        }
+        $result->close();
+    }
+    $conn->close();
+  }
+  break;
 
 default:
     echo "Nothing to show";
