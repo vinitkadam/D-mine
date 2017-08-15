@@ -125,24 +125,41 @@ case "TruncateTable":
 
 case "SelectExecution":
   $Sel_Cmd=$_POST['SelCmd'];
-  $DB_Name="dsd";
-  if($conn->select_db($DB_Name))
-	{
-    if ($result = $conn->query($Sel_Cmd)) {
+  $DB_Name=$_POST['dbName'];
 
+    if($conn->select_db($DB_Name))
+    {
+        $result=mysqli_query($conn,$Sel_Cmd);
 
-        while ($finfo = $result->fetch_field())
+        echo "<tr>";
+        while ($fieldinfo=mysqli_fetch_field($result))
         {
-          printf("%s\n", $finfo->name);
-          while ($row = $result->fetch_assoc())
-          {
-                 printf ("%s\n", $row["$finfo->name"]);
-          }
+
+            echo"<th> $fieldinfo->name </th>";
+
+
         }
-        $result->close();
+        echo "</tr>";
+
+        while($data = mysqli_fetch_row($result))
+        {
+
+            echo "<tr>";
+            for($i=0;$i<count($data);$i++)
+            {
+                echo"<td>$data[$i]</td>";
+            }
+
+            echo "</tr>";
+
+        }
+        $result->free();
+
+    }
+    else {
+        echo "Database does not exist";
     }
     $conn->close();
-  }
   break;
 
   case "DbDropdownList":
@@ -343,6 +360,7 @@ case "SelectExecution":
         }
         $conn->close();
         break;
+
 case "selectall":
 	$DB_Name=$_POST['dbName'];
 	$query_Stat=$_POST['Query'];
@@ -350,6 +368,7 @@ case "selectall":
 	if($conn->select_db($DB_Name))
 	{
 		$result=mysqli_query($conn,$query_Stat);
+
 		
 		while($data = mysqli_fetch_row($result))
 		{
@@ -370,8 +389,8 @@ case "selectall":
 			echo")\">update</button></td>";
 			echo "</tr>";
 		}
-		
-		
+
+
 	}
 	else {
 		echo "Database does not exist";
