@@ -31,7 +31,7 @@
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 100%;
 }
 
 /* The Close Button */
@@ -130,7 +130,7 @@
             dbname = $("#dbnameInput").val();
             tname = $("#TbnameInput").val();
 			var query = "SELECT * FROM "+tname+";";
-			var tago="selectall";
+			var tago="updateselectall";
             var dataString = 'tag='+ tago + '&Query='+ query+'&dbName='+ dbname + '&tName='+ tname;
             if(dbname=='' || tname=='')
             {
@@ -152,6 +152,76 @@
             }
         });
       });
+	  
+		function update(pkeyname,pkeyval)
+		{
+			pkeyn=pkeyname;
+			pkeyv=pkeyval;
+			var query = "Select * from "+tname+" where "+pkeyname+"="+pkeyval;
+			var tago = "updatemodal";
+			var dataString = 'tag='+ tago + '&Query='+ query+'&dbName='+ dbname + '&tName='+ tname+'&pkeyname='+pkeyname+'&pkeyval='+pkeyval;
+			$.ajax({
+				type: "POST",
+				url: "queryExecutor.php",
+				data: dataString,
+				cache: false,
+				success: function(result){
+					alertMsg=result;
+					$("#id01").show();
+					$("#updatemodaltable").html(alertMsg);
+				}
+			});
+		}
+		
+		function updatevalues()
+		{
+			var query = "Update "+tname+" set ";
+			var i=0;
+			var colname = "";
+			var visible="";
+			var invisible="";
+			var count = document.getElementById('count').value;
+			var flag = 0;
+			var tbl = document.getElementById('updatemodaltable');
+			var cells = tbl.rows['0'].getElementsByTagName('th');
+			for(i=0;i<count;i++)
+			{
+				visible=document.getElementById('v'+i).value;
+				
+				invisible=document.getElementById('iv'+i).value;
+				
+				colname=cells[i].innerHTML;
+				if(visible === invisible){
+					//do nothing
+				}
+				else{
+					if(flag==0){
+						query += colname + " = '" + visible + "'";
+						flag=1;
+					}else{
+						query += ", "+colname + " = '" + visible + "'";
+					}
+				}
+			}
+			query += " where "+pkeyn+" = "+pkeyv;
+			var tago = "updatevalues";
+			var dataString = 'tag='+ tago + '&Query='+ query+'&dbName='+ dbname + '&tName='+ tname;
+			$.ajax({
+				type: "POST",
+				url: "queryExecutor.php",
+				data: dataString,
+				cache: false,
+				success: function(result){
+					alertMsg=result;
+					$("#alertBoxMain").show();
+					document.getElementById("alertBox").innerHTML=alertMsg;
+					document.getElementById("cmdWindow").innerHTML=query;
+					$("#id01").hide();
+					$("#SUBMIT").click();
+				}
+			});
+		}
+
 	  
 	  
   </script>
@@ -229,24 +299,24 @@
 	
 	<!-- modal-->
 	<div id="id01" class="w3-modal">
-        <div class="w3-modal-content">
-            <div class="w3-container">
-				<span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-				<div id="DSHOW" class="w3-container w3-padding">
-				<input class="w3-hide" id='oldname'>
-				<table class="w3-table">
-					<tr>
-					
-						<td><label>Field</label><input class="w3-input w3-border" id="newname" /></td>
-						<td><label>type</label><input class="w3-input w3-border" id="dtype" /></td>
-					</tr>
-				</table>
-				<p class="w3-right"><button class="w3-btn w3-round-xlarge w3-blue-grey" onclick="modify();">GO</button></p>
-				</div>
+	  <div style="width:100%" class="w3-modal-content">
+		<div class="w3-container">
+		  <span onclick="document.getElementById('id01').style.display='none'" class=" w3-white w3-button w3-display-topright"><i class="fa fa-close" style="font-size:25px;color:red"></i></span>
+		  <div id="DSHOW" class="w3-container">
+			<br>
+			<br>
+			<table id = "updatemodaltable" class = "w3-table-all">
 
-            </div>
-        </div>
-    </div>
+			</table>
+			<br>
+			<p><button class="w3-btn w3-round-xlarge w3-blue-grey w3-right" onclick="updatevalues();">GO</button><p>
+			<br>
+			<br>
+		  </div>
+
+		</div>
+	  </div>
+	</div>
 
       <div class="w3-layout-container">
         <!-- Query view section start-->
@@ -261,7 +331,7 @@
         <div class="w3-layout-container">
             <!-- Action section start -->
             <div id="actionWindow" class="w3-container w3-layout-col w3-bottombar w3-leftbar w3-rightbar w3-border-light-grey" style="width:70%; height: 576px;">
-
+				
 
                   <p><i class="	fa fa-angle-double-right"></i> Alter</p>
                 <!-- Alert Box Section by default its hidden start-->
@@ -297,6 +367,9 @@
 				<!-- code for selecting database and retrieving table structure  end-->
 				
 					<div>
+						<table id="tstructureheading" class="w3-table w3-striped w3-bordered">
+						
+						</table>
 						<table id="tstructure" class="w3-table w3-striped w3-bordered">
 						
 						</table>
@@ -307,7 +380,8 @@
 				<br>
 				<br>
 				
-</div>
+				</div>
+				
             <!-- Action section end -->
             <!-- flow Chart section start -->
             <div id="chartWindow" class="w3-container w3-layout-col w3-bottombar w3-rightbar w3-border-light-grey" >

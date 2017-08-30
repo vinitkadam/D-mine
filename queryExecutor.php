@@ -376,6 +376,110 @@ case "selectall":
 	else {
 		echo "Database does not exist";
 	}
+	break;
+case "updateselectall":
+	$DB_Name=$_POST['dbName'];
+	$query_Stat=$_POST['Query'];
+	$tablename=$_POST['tName'];
+	if($conn->select_db($DB_Name))
+	{
+		$result=mysqli_query($conn,$query_Stat);
+		$primarykey = mysqli_query($conn,"SHOW KEYS FROM $tablename WHERE Key_name = 'PRIMARY'");
+		$primarykeydata = mysqli_fetch_row($primarykey);
+		$primarykeyname = $primarykeydata[4];
+
+		//echo headings
+		echo "<tr><th></th>";
+		while ($fieldinfo=mysqli_fetch_field($result))
+		{
+			echo"<th> $fieldinfo->name </th>";
+			echo"<th></th>";
+		}
+		echo "</tr>";
+			
+		while($data = mysqli_fetch_array($result,MYSQL_BOTH))
+		{
+			
+			
+			echo "<tr>";
+			echo "<td><button id='' class='w3-btn w3-round-xxlarge w3-small w3-blue-grey' onclick=\"update('".$primarykeyname."',".$data[$primarykeyname].")\">Update</button></td>";
+			for($i=0;$i<count($data)-count($data)/2;$i++)
+			{
+				echo"<td>$data[$i]<td>";
+			}
+			echo "</tr>";
+		}
+		
+		
+	}
+	else {
+		echo "Database does not exist";
+	}
+	break;
+
+case "updatemodal":
+
+
+	$DB_Name=$_POST['dbName'];
+	$query_Stat=$_POST['Query'];
+	$tablename=$_POST['tName'];
+	$pkeyname = $_POST['pkeyname'];
+	$pkeyval = $_POST['pkeyval'];
+
+	if($conn->select_db($DB_Name))
+    {
+        $result=mysqli_query($conn,$query_Stat);
+        echo "<tr>";
+		$i=0;
+        while ($fieldinfo=mysqli_fetch_field($result))
+        {
+            echo"<th id='h$i' > $fieldinfo->name </th>";
+			$i++;
+        }
+        echo "</tr>";
+        while($data = mysqli_fetch_row($result))
+        {
+
+            echo "<tr>";
+            for($i=0;$i<count($data);$i++)
+            {
+                echo"<td ><input id='v$i'type='text' value='".$data[$i]."'></td>";
+            }
+            echo "</tr>";
+			echo "<tr>";
+            for($i=0;$i<count($data);$i++)
+            {
+                echo"<td ><input id='iv$i' class='w3-hide' type='text' value='".$data[$i]."'></td>";
+            }
+            
+			echo "<tr class='w3-hide'><td><input type='text' id='count' value='".count($data)."'></td></tr>";
+			echo "</tr>";
+		}
+		
+        $result->free();
+    }
+    else {
+        echo "Database does not exist";
+    }
+	break;
+	
+case "updatevalues":
+	$DB_Name=$_POST['dbName'];
+	$query_Stat=$_POST['Query'];
+	if($conn->select_db($DB_Name))
+	{
+		if($conn->query($query_Stat)===TRUE){
+			echo "Values updated Successfully";
+		}
+		else{
+			echo "Error occured. Try again.."; 
+		}
+	}
+	else {
+		echo "Database does not exist";
+	}
+	break;
+	
     default:
         echo "Nothing to show";
 }
