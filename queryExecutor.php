@@ -479,6 +479,63 @@ case "updatevalues":
 		echo "Database does not exist";
 	}
 	break;
+
+case "deleteselectall":
+	$DB_Name=$_POST['dbName'];
+	$query_Stat=$_POST['Query'];
+	$tablename=$_POST['tName'];
+	if($conn->select_db($DB_Name))
+	{
+		$result=mysqli_query($conn,$query_Stat);
+		$primarykey = mysqli_query($conn,"SHOW KEYS FROM $tablename WHERE Key_name = 'PRIMARY'");
+		$primarykeydata = mysqli_fetch_row($primarykey);
+		$primarykeyname = $primarykeydata[4];
+
+		//echo headings
+		echo "<tr><th></th>";
+		while ($fieldinfo=mysqli_fetch_field($result))
+		{
+			echo"<th> $fieldinfo->name </th>";
+			echo"<th></th>";
+		}
+		echo "</tr>";
+			
+		while($data = mysqli_fetch_array($result,MYSQL_BOTH))
+		{
+			
+			
+			echo "<tr>";
+			echo "<td><button id='' class='w3-btn w3-round-xxlarge w3-small w3-blue-grey' onclick=\"deleterow('".$primarykeyname."',".$data[$primarykeyname].")\">Delete</button></td>";
+			for($i=0;$i<count($data)-count($data)/2;$i++)
+			{
+				echo"<td>$data[$i]<td>";
+			}
+			echo "</tr>";
+		}
+		
+		
+	}
+	else {
+		echo "Database does not exist";
+	}
+	break;
+
+case "delete":
+	$DB_Name=$_POST['dbName'];
+	$query_Stat=$_POST['Query'];
+	if($conn->select_db($DB_Name))
+	{
+		if($conn->query($query_Stat)===TRUE){
+			echo "Row deleted succesfully";
+		}
+		else{
+			echo "Error occured. Try again.."; 
+		}
+	}
+	else {
+		echo "Database does not exist";
+	}
+	break;
 	
     default:
         echo "Nothing to show";
