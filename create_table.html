@@ -8,52 +8,102 @@
 <link rel="stylesheet" href="http://www.w3schools.com/lib/w3-colors-food.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-</head>
-<body>
-
   <script>
-    function DropdownFunc(x) {
-        if (x.className.indexOf("w3-show") == -1) {
-          x.className += " w3-show";
-          x.previousElementSibling.className += "w3-signal-red";
-        } else {
-          x.className = x.className.replace(" w3-show", "");
-          x.previousElementSibling.className =
-          x.previousElementSibling.className.replace("w3-signal-red", "");
-        }
+      function DropdownFunc(x) {
+          if (x.className.indexOf("w3-show") == -1) {
+              x.className += " w3-show";
+              x.previousElementSibling.className += "w3-signal-red";
+          } else {
+              x.className = x.className.replace(" w3-show", "");
+              x.previousElementSibling.className =
+                  x.previousElementSibling.className.replace("w3-signal-red", "");
+          }
       }
 
-          // Dynamically generates input boxes And table and sends data to queryExecutor
-        function ColGenerator()
-        {
-            $("#autoCOL").show();
-            var i;
-            var rNo = parseInt($("#NoOfColInput").val());
-            for (i = 0; i < rNo; i++) {
-              $('#autoCOL')
-               .append('<tr><td><input id="name' + i + '" type="text" class="input" /></td>' +
-                   '<td><input id="type' + i + '" type="text" class="input" /></td>' +
-                   '<td><input id="length' + i + '" type="text" class="input" /></td>' +
-                   '</tr>');
-            }
+      function GetDbDropdownList()
+      {
+          var tago="DbDropdownList";
+          var dataString = 'tag='+ tago;
+          $.ajax({
+              type: "POST",
+              url: "queryExecutor.php",
+              dataType: 'json',
+              data: dataString,
+              success: function(result){
+                  var countItem = Object.keys(result).length;
+                  for (var i = 0; i < countItem; i++) {
+                      $('#dbDropDown')
+                          .append(
 
-            //when create button is clicked this logic send data and recieve result from queryExecutor
-            $("#CRE").click(function(){
-                  var values="";
-                  var table_name = $("#TbnameInput").val();
-                  i=0;
-                  while (i!=rNo) {
-                    if(i==0)
-                      values +=  $('#name' + i).val() + ' ' + $('#type' + i).val() + '(' + $('#length' + i).val() +')';
-                    else
-                      values += ', '+ $('#name' + i).val() + ' ' + $('#type' + i).val() + '(' + $('#length' + i).val() +')';
-                    i++;
+                              '<option value="' + result[i] + '">' + result[i] + '</option>'
+                          );
                   }
-                  var query = "CREATE TABLE "+table_name+" ("+values+");";
-                  var tb_tag = "createTable";
-                  var db_name = $("#dbnameInput").val();
-                  var dataValues = 'tag='+ tb_tag + '&Query='+ query + '&db_Name='+ db_name;
-                  $.ajax({
+              }
+          });
+      }
+
+      // Dynamically generates input boxes And table and sends data to queryExecutor
+      function ColGenerator()
+      {
+          $("#autoCOL").show();
+          var i;
+          var rNo = parseInt($("#NoOfColInput").val());
+          for (i = 0; i < rNo; i++) {
+              $('#autoCOL')
+                  .append('<tr><td><input id="name' + i + '" type="text" class="input" /></td>' +
+
+                      '<td>'
+                      +
+                      '<select id="type' + i + '" >' +
+                      '<option value="int"> int </option>' +
+                      '<option value="varchar"> varchar </option>' +
+                      '<option value="text"> text </option>' +
+                      '<option value="char"> char </option>' +
+                      '<option value="date"> date </option>' +
+                      '<option value="time"> time </option>' +
+                      '<option value="year"> year </option>' +
+                      '<select>'
+                      +
+                      '</td>'+
+
+                      '<td><input id="length' + i + '" type="text" class="input" /></td>' +
+                      '<td><input  class="w3-check" id=" primary key" type="checkbox"  /><label> PRIMARY KEY  &nbsp&nbsp </label>' +
+                      '<input  class="w3-check" id=" AUTO_INCREMENT" type="checkbox"  /><label> AUTO INCREMENT  &nbsp&nbsp </label>' +
+                      '<input  class="w3-check" id=" NOT NULL" type="checkbox"  /><label> NOT NULL</label></td>' +
+                      '</tr>');
+          }
+
+          //when create button is clicked this logic send data and recieve result from queryExecutor
+          $("#CRE").click(function(){
+              var values="";
+              var table_name = $("#TbnameInput").val();
+              i=0;
+              while (i!=rNo) {
+                  if(i==0) {
+                      if($('#length' + i).val() == "")
+                      {
+                          values += $('#name' + i).val() + ' ' + $('#type' + i).val();
+                      }
+                      else {
+                          values += $('#name' + i).val() + ' ' + $('#type' + i).val() + '(' + $('#length' + i).val() + ')';
+                      }
+                  }
+                  else {
+                      if($('#length' + i).val() == "")
+                      {
+                          values += ', ' + $('#name' + i).val() + ' ' + $('#type' + i).val();
+                      }
+                      else {
+                          values += ', ' + $('#name' + i).val() + ' ' + $('#type' + i).val() + '(' + $('#length' + i).val() + ')';
+                      }
+                  }
+                  i++;
+              }
+              var query = "CREATE TABLE "+table_name+" ("+values+");";
+              var tb_tag = "createTable";
+              var db_name = $('#dbDropDown').val();
+              var dataValues = 'tag='+ tb_tag + '&Query='+ query + '&db_Name='+ db_name;
+              $.ajax({
                   type: "POST",
                   url: "queryExecutor.php",
                   data: dataValues,
@@ -62,13 +112,17 @@
                       $("#alertBoxMain").show();
                       document.getElementById("alertBox").innerHTML=alertMsg;
                       document.getElementById("cmdWindow").innerHTML=query;
-                    }
-                  });
+                  }
+              });
 
-            });
-        }
+          });
+      }
 
   </script>
+</head>
+<body onload="GetDbDropdownList();">
+
+
 
 <!-- side navigation bar start -->
   <nav class="w3-sidenav w3-signal-red" style="width:160px;">
@@ -97,13 +151,11 @@
           <i class="fa fa-angle-right"></i> Alter
         </a>
 		<!--DDL-Drop-->
-		<a onclick="DropdownFunc(dropdrop)" href="#">
-			<i class="fa fa-angle-right"></i> Drop <i class="fa fa-caret-down"></i>
-		</a>
-		<div id="dropdrop" class="w3-accordion-content w3-white"  >
-			<a href="drop_database.html"><i class="fa fa-toggle-right"></i> Database</a>
-			<a href="drop_table.html"><i class="fa fa-toggle-right"></i> Table</a>
-		</div>
+
+
+			<a href="drop.html"> <i class="fa fa-angle-right"></i> Drop</a>
+
+
 		<!--DDL-Truncate-->
         <a href="truncate.html"><i class="fa fa-angle-right"></i> Truncate</a>
 
@@ -161,13 +213,15 @@
               <!-- Alert Box Section by default its hidden end -->
                 <div class="w3-container w3-border">
                   <p><label class="w3-label w3-text-blue">Database Name<span class="w3-text-red">*</span>:</label>
-                  <input id="dbnameInput" class="w3-input w3-border-bottom" type="text"></p>
+                    <select id = "dbDropDown" name="DDD">
+                      <option value = 0>Select Database</option>
+                    </select>
                   <p><label class="w3-label w3-text-blue">Table Name<span class="w3-text-red">*</span>:</label>
                   <input id="TbnameInput" class="w3-input w3-border-bottom" type="text"></p>
                   <table>
                     <tr>
                       <td><label class="w3-label w3-text-blue">Number of columns<span class="w3-text-red">*</span>:&nbsp</label></td>
-                      <td><input id="NoOfColInput" class="w3-input w3-border" type="text" style="width:90%"></td>
+                      <td><input id="NoOfColInput" class="w3-input w3-border-bottom" type="text" style="width:90%"></td>
                       <td><button onclick="ColGenerator();">Add</button></td>
                     </tr>
                   </table>
@@ -178,6 +232,7 @@
                         <th>Name</th>
                         <th>Type</th>
                         <th>Length</th>
+                        <th>Constraints</th>
                       </tr>
                     </thead>
                   </table>
