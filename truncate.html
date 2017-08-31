@@ -8,73 +8,136 @@
 <link rel="stylesheet" href="http://www.w3schools.com/lib/w3-colors-food.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-</head>
-<body>
 
-  <script>
-    function DropdownFunc(x) {
-        if (x.className.indexOf("w3-show") == -1) {
-          x.className += " w3-show";
-          x.previousElementSibling.className += "w3-signal-red";
-        } else {
-          x.className = x.className.replace(" w3-show", "");
-          x.previousElementSibling.className =
-          x.previousElementSibling.className.replace("w3-signal-red", "");
-        }
-      }
-
-	  //when truncate button is clicked this logic will run
-		$(document).ready(function(){
-          $("#truncate").click(function(){
-            var alertMsg="";
-            var dbname = $("#dbnameInput").val();
-            var tname = $("#TbnameInput").val();
-			var query = "TRUNCATE TABLE "+tname+";";
-			var tago="TruncateTable";
-            var dataString = 'tag='+ tago + '&Query='+ query+'&dbName='+ dbname + '&tName='+ tname;
-            if(dbname=='' || tname=='')
-            {
-                alertMsg="Please Fill All Field";
-                $("#alertBoxMain").show();
-                document.getElementById("alertBox").innerHTML=alertMsg;
+    <script>
+        function DropdownFunc(x) {
+            if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+                x.previousElementSibling.className += "w3-signal-red";
+            } else {
+                x.className = x.className.replace(" w3-show", "");
+                x.previousElementSibling.className =
+                    x.previousElementSibling.className.replace("w3-signal-red", "");
             }
-            else
-            {
-                  $.ajax({
-                  type: "POST",
-                  url: "queryExecutor.php",
-                  data: dataString,
-                  cache: false,
-                  success: function(result){
-                    alertMsg=result;
-                    var cmd = "TRUNCATE TABLE '"+tname+"';";
+        }
+
+        function showANDhideBox(x){
+
+            if (x.style.display === 'none') {
+                x.style.display = 'block';
+            } else {
+                x.style.display = 'none';
+            }
+
+        }
+
+        function GetDbDropdownList()
+        {
+            var tago="DbDropdownList";
+            var dataString = 'tag='+ tago;
+            $.ajax({
+                type: "POST",
+                url: "queryExecutor.php",
+                dataType: 'json',
+                data: dataString,
+                success: function(result){
+                    var countItem = Object.keys(result).length;
+                    for (var i = 0; i < countItem; i++) {
+                        $('#dbDropDown')
+                            .append(
+
+                                '<option value="' + result[i] + '">' + result[i] + '</option>'
+                            );
+                    }
+                }
+            });
+        }
+
+        function GetTbDropdownList(tdbName)
+        {
+            var selectobject=document.getElementById("tbDropDown");
+            for (var i = selectobject.length - 1; i >= 1; i--){
+                selectobject.options[i] = null;
+            }
+            var tago="TbDropdownList";
+            var dataString = 'tag='+ tago + '&dbName='+ tdbName;
+            $.ajax({
+                type: "POST",
+                url: "queryExecutor.php",
+                dataType: 'json',
+                data: dataString,
+                success: function(result){
+                    var countItem = Object.keys(result).length;
+
+                    for (var i = 0; i < countItem; i++) {
+                        $('#tbDropDown')
+                            .append(
+
+                                '<option value="' + result[i] + '">' + result[i] + '</option>'
+                            );
+                    }
+                }
+            });
+        }
+
+        //when truncate button is clicked this logic will run
+        $(document).ready(function(){
+            $("#truncate").click(function(){
+                var alertMsg="";
+                var dbname = $('#dbDropDown').val();
+                var tname = $('#tbDropDown').val();
+                var query = "TRUNCATE TABLE "+tname+";";
+                var tago="TruncateTable";
+                var dataString = 'tag='+ tago + '&Query='+ query+'&dbName='+ dbname + '&tName='+ tname;
+                if(dbname=='' || tname=='')
+                {
+                    alertMsg="Please Fill All Field";
                     $("#alertBoxMain").show();
                     document.getElementById("alertBox").innerHTML=alertMsg;
-                    document.getElementById("cmdWindow").innerHTML=cmd;
-                  }
-                  });
-            }
-        });
-      });
-
- //when reset button is clicked this logic reset input field and alertmsg
-      $(document).ready(function(){
-          $("#RESET").click(function(){
-              var name = $("#dbnameInput").val();
-              var inputfield1 = document.getElementById('dbnameInput');
-              inputfield1.value= inputfield1.defaultValue;
-
-			  var inputfield2 = document.getElementById('TbnameInput');
-              inputfield2.value= inputfield2.defaultValue;
-
-			  var cmd = "TRUNCATE TABLE ";
-              document.getElementById("alertBox").innerHTML="";
-              $("#alertBoxMain").hide();
-              document.getElementById("cmdWindow").innerHTML=cmd;
+                }
+                else
+                {
+                    $.ajax({
+                        type: "POST",
+                        url: "queryExecutor.php",
+                        data: dataString,
+                        cache: false,
+                        success: function(result){
+                            alertMsg=result;
+                            var cmd = "TRUNCATE TABLE '"+tname+"';";
+                            $("#alertBoxMain").show();
+                            document.getElementById("alertBox").innerHTML=alertMsg;
+                            document.getElementById("cmdWindow").innerHTML=cmd;
+                        }
+                    });
+                }
             });
-          });
+        });
 
-  </script>
+        //when reset button is clicked this logic reset input field and alertmsg
+        $(document).ready(function(){
+            $("#RESET").click(function(){
+                var name = $("#dbnameInput").val();
+                var inputfield1 = document.getElementById('dbnameInput');
+                inputfield1.value= inputfield1.defaultValue;
+
+                var inputfield2 = document.getElementById('TbnameInput');
+                inputfield2.value= inputfield2.defaultValue;
+
+                var cmd = "TRUNCATE TABLE ";
+                document.getElementById("alertBox").innerHTML="";
+                $("#alertBoxMain").hide();
+                document.getElementById("cmdWindow").innerHTML=cmd;
+            });
+        });
+
+    </script>
+
+    
+</head>
+<body onload="GetDbDropdownList();">
+
+
 
     <nav class="w3-sidenav w3-signal-red" style="width:160px;">
 <br>
@@ -173,11 +236,22 @@
                 </div>
               <!-- Alert Box Section by default its hidden end -->
 				<div class="w3-container w3-border">
-                  <p><label class="w3-label w3-text-blue">Database Name<span class="w3-text-red">*</span>:</label>
-                  <input id="dbnameInput" class="w3-input w3-border-bottom" type="text"></p>
-                  <p><label class="w3-label w3-text-blue">Table Name<span class="w3-text-red">*</span>:</label>
-                  <input id="TbnameInput" class="w3-input w3-border-bottom" type="text"></p>
+                    <div><p><label class="w3-label w3-text-blue">Select Database <span class="w3-text-red">*</span>:</label>
 
+                        <select id = "dbDropDown" name="DDD" onchange="GetTbDropdownList(this.value)">
+                            <option value = 0>Select Database</option>
+                        </select></p>
+
+                    </div>
+                    <hr>
+                    <div><p><label class="w3-label w3-text-blue">Select Table<span class="w3-text-red">*</span>:</label>
+
+
+                        <select id = "tbDropDown" name="TDD">
+                            <option value = 0>Select Table</option>
+                        </select></p>
+
+                    </div>
 
                   <p class="w3-right"><button id="truncate" class="w3-btn w3-signal-red w3-round-xlarge">TRUNCATE</button>
 				  <button id="RESET" class="w3-btn w3-signal-red w3-round-xlarge">RESET</button></p>
@@ -188,7 +262,48 @@
 
             <!-- flow Chart section start -->
             <div id="chartWindow" class="w3-container w3-layout-col w3-bottombar w3-rightbar w3-border-light-grey" >
-              <p>chart</p>
+                <p>
+                    <div class="w3-panel w3-pale-green w3-border-left w3-border-green">
+                <p> <div class="w3-tag w3-round w3-green" style="padding:3px" onclick="showANDhideBox(description)" >
+                <div class="w3-tag w3-round w3-green w3-border w3-border-white">
+                    Description :
+                </div>
+            </div></p>
+                <p id ="description">The TRUNCATE TABLE statement is used to remove all records from a table in MySQL.
+                    It performs the same function as a DELETE statement without a WHERE clause.<br>
+                    <b>Warning:</b> If you truncate a table, the TRUNCATE TABLE statement can not be rolled back.</p>
+            </div>
+            </p>
+
+            <p>
+                <div class="w3-panel w3-pale-blue w3-border-left w3-border-blue">
+            <p> <div class="w3-tag w3-round w3-blue" style="padding:3px" onclick="showANDhideBox(syntax)">
+            <div class="w3-tag w3-round w3-blue w3-border w3-border-white">
+                Syntax :
+            </div>
+        </div></p>
+            <p id="syntax" >
+                TRUNCATE TABLE table_name;
+            </p>
+        </div>
+          </p>
+
+          <p>
+              <div class="w3-panel w3-pale-red w3-border-left w3-border-red">
+          <p> <div class="w3-tag w3-round w3-red" style="padding:3px" onclick="showANDhideBox(example)">
+          <div class="w3-tag w3-round w3-red w3-border w3-border-white">
+              Example :
+          </div>
+      </div></p>
+          <p id="example" >
+
+              TRUNCATE TABLE customers;
+
+
+
+          </p>
+      </div>
+        </p>
             </div>
             <!-- flow Chart section end -->
 

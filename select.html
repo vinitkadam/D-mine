@@ -26,6 +26,16 @@
           }
       }
 
+      function showANDhideBox(x){
+
+          if (x.style.display === 'none') {
+              x.style.display = 'block';
+          } else {
+              x.style.display = 'none';
+          }
+
+      }
+
       function showFullTable(Tb)
       {
           var dbName = $('#dbDropDown').val();
@@ -382,8 +392,51 @@
             <!-- Action section end -->
             <!-- flow Chart section start -->
             <div id="chartWindow" class="w3-container w3-layout-col w3-bottombar w3-rightbar w3-border-light-grey" >
-              <p>chart</p>
+              <p>
+                <div class="w3-panel w3-pale-green w3-border-left w3-border-green">
+              <p> <div class="w3-tag w3-round w3-green" style="padding:3px" onclick="showANDhideBox(description)">
+              <div class="w3-tag w3-round w3-green w3-border w3-border-white">
+                Description :
+              </div>
+            </div></p>
+              <p id ="description">The MySQL SELECT statement is used to retrieve records from one or more tables in MySQL.</p>
             </div>
+          </p>
+
+          <p>
+            <div class="w3-panel w3-pale-blue w3-border-left w3-border-blue">
+          <p> <div class="w3-tag w3-round w3-blue" style="padding:3px" onclick="showANDhideBox(syntax)">
+          <div class="w3-tag w3-round w3-blue w3-border w3-border-white">
+            Syntax :
+          </div>
+        </div></p>
+          <p id="syntax" >SELECT expressions
+            FROM tables
+            [WHERE conditions];</p>
+        </div>
+        </p>
+
+        <p>
+          <div class="w3-panel w3-pale-red w3-border-left w3-border-red">
+        <p> <div class="w3-tag w3-round w3-red" style="padding:3px" onclick="showANDhideBox(example)">
+        <div class="w3-tag w3-round w3-red w3-border w3-border-white">
+          Example :
+        </div>
+      </div></p>
+        <p id="example" >
+         1) SELECT *
+          FROM order_details
+          WHERE quantity >= 10
+          ORDER BY quantity DESC;
+          <br><br>
+          2) SELECT order_details.order_id, customers.customer_name
+          FROM customers
+          INNER JOIN order_details
+          ON customers.customer_id = order_details.customer_id
+          ORDER BY order_id;
+        </p>
+            </div>
+    </div>
             <!-- flow Chart section start end -->
         </div>
 

@@ -26,6 +26,16 @@
             }
         }
 
+        function showANDhideBox(x){
+
+            if (x.style.display === 'none') {
+                x.style.display = 'block';
+            } else {
+                x.style.display = 'none';
+            }
+
+        }
+
         function showFullTable(Tb)
         {
             var dbName = $('#dbDropDown').val();
@@ -221,7 +231,7 @@
             <!-- Query view section start-->
             <div class="w3-layout-container">
                 <div class="w3-container w3-layout-col w3-bottombar w3-leftbar w3-rightbar w3-topbar  w3-border-light-grey" style="width:100%; height: 50px;">
-                    <p id="cmdWindow">CREATE VIEW  </p>
+                    <p id="cmdWindow">CREATE OR REPLACE VIEW  </p>
                 </div>
             </div>
             <!-- Query view section end -->
@@ -251,7 +261,7 @@
                             </span>
                         </p>
 
-                        <p><label class="w3-label w3-text-blue">Create View<span class="w3-text-red">*</span>:</label>
+                        <p><label class="w3-label w3-text-blue">Create or Replace View <span class="w3-text-red">*</span>:</label>
                             <input id="viewNameInput" class="w3-input w3-border-bottom" type="text"></p>
                         <p><label class="w3-label w3-text-blue">AS :</label></p>
 
@@ -277,7 +287,48 @@
                 <!-- Action section end -->
                 <!-- flow Chart section start -->
                 <div id="chartWindow" class="w3-container w3-layout-col w3-bottombar w3-rightbar w3-border-light-grey" >
-                    <p>chart</p>
+                    <p>
+                        <div class="w3-panel w3-pale-green w3-border-left w3-border-green">
+                    <p> <div class="w3-tag w3-round w3-green" style="padding:3px" onclick="showANDhideBox(description)">
+                    <div class="w3-tag w3-round w3-green w3-border w3-border-white">
+                        Description :
+                    </div>
+                </div></p>
+                    <p id ="description">In MySQL, a VIEW is not a physical table, but rather,
+                        it is in essence a virtual table created by a query joining one or more tables.</p>
+                </div>
+                </p>
+
+                <p>
+                    <div class="w3-panel w3-pale-blue w3-border-left w3-border-blue">
+                <p> <div class="w3-tag w3-round w3-blue" style="padding:3px" onclick="showANDhideBox(syntax)">
+                <div class="w3-tag w3-round w3-blue w3-border w3-border-white">
+                    Syntax :
+                </div>
+            </div></p>
+                <p id="syntax" >
+                    CREATE [OR REPLACE] VIEW view_name AS
+                    SELECT columns
+                    FROM tables
+                    [WHERE conditions];
+                </p>
+            </div>
+            </p>
+
+            <p>
+                <div class="w3-panel w3-pale-red w3-border-left w3-border-red">
+            <p> <div class="w3-tag w3-round w3-red" style="padding:3px" onclick="showANDhideBox(example)">
+            <div class="w3-tag w3-round w3-red w3-border w3-border-white">
+                Example :
+            </div>
+        </div></p>
+            <p id="example" >
+                CREATE VIEW hardware_suppliers AS
+                SELECT supplier_id, supplier_name
+                FROM suppliers
+                WHERE category_type = 'Hardware';
+            </p>
+                </div>
                 </div>
                 <!-- flow Chart section start end -->
             </div>

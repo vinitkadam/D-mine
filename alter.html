@@ -62,6 +62,16 @@
         }
       }
 
+    function showANDhideBox(x){
+
+        if (x.style.display === 'none') {
+            x.style.display = 'block';
+        } else {
+            x.style.display = 'none';
+        }
+
+    }
+
       function accordion(id) {
             var x = document.getElementById(id);
             if (x.className.indexOf("w3-show") == -1) {
@@ -522,7 +532,86 @@
             <!-- Action section end -->
             <!-- flow Chart section start -->
             <div id="chartWindow" class="w3-container w3-layout-col w3-bottombar w3-rightbar w3-border-light-grey" >
-            
+
+                <p>
+                    <div class="w3-panel w3-pale-green w3-border-left w3-border-green">
+                <p> <div class="w3-tag w3-round w3-green" style="padding:3px" onclick="showANDhideBox(description)">
+                <div class="w3-tag w3-round w3-green w3-border w3-border-white">
+                    Description :
+                </div>
+            </div></p>
+                <p id ="description">The MySQL ALTER TABLE statement is used to add, modify, or drop/delete columns in a table.
+                    The MySQL ALTER TABLE statement is also used to rename a table.</p>
+            </div>
+            </p>
+
+                    <p>
+                        <div class="w3-panel w3-pale-blue w3-border-left w3-border-blue">
+                    <p> <div class="w3-tag w3-round w3-blue" style="padding:3px" onclick="showANDhideBox(syntax)">
+                    <div class="w3-tag w3-round w3-blue w3-border w3-border-white">
+                        Syntax :
+                    </div>
+                </div></p>
+                    <p id="syntax" style="display:none">
+                        <b>Add column in table :</b> <br>
+                        ALTER TABLE table_name
+                        ADD new_column_name column_definition
+                        [ FIRST | AFTER column_name ];
+                        <br><br>
+                        <b>Modify column in table :</b>  <br>
+                        ALTER TABLE table_name
+                        MODIFY column_name column_definition
+                        [ FIRST | AFTER column_name ];
+                        <br><br>
+                        <b>Drop column in table :</b><br>
+                        ALTER TABLE table_name
+                        DROP COLUMN column_name;
+                        <br><br>
+                        <b>Rename column in table :</b><br>
+                        ALTER TABLE table_name
+                        CHANGE COLUMN old_name new_name
+                        column_definition
+                        [ FIRST | AFTER column_name ]
+                        <br><br>
+                        <b>Rename table :</b><br>
+                        ALTER TABLE table_name
+                        RENAME TO new_table_name;
+                       </p>
+                </div>
+                  </p>
+
+                  <p>
+                      <div class="w3-panel w3-pale-red w3-border-left w3-border-red">
+                  <p> <div class="w3-tag w3-round w3-red" style="padding:3px" onclick="showANDhideBox(example)">
+                  <div class="w3-tag w3-round w3-red w3-border w3-border-white">
+                      Example :
+                  </div>
+              </div></p>
+                  <p id="example" style="display:none">
+                      <b>Add column in table :</b> <br>
+                      ALTER TABLE contacts
+                      ADD last_name varchar(40) NOT NULL
+                      AFTER contact_id;
+                      <br><br>
+                      <b>Modify column in table :</b>  <br>
+                      ALTER TABLE contacts
+                      MODIFY last_name varchar(50) NULL;
+                      <br><br>
+                      <b>Drop column in table :</b><br>
+                      ALTER TABLE contacts
+                      DROP COLUMN contact_type;
+                      <br><br>
+                      <b>Rename column in table :</b><br>
+                      ALTER TABLE contacts
+                      CHANGE COLUMN contact_type ctype
+                      varchar(20) NOT NULL;
+                      <br><br>
+                      <b>Rename table :</b><br>
+                      ALTER TABLE contacts
+                      RENAME TO people;
+                  </p>
+              </div>
+                </p>
 
             </div>
             <!-- flow Chart section start end -->
