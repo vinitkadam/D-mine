@@ -140,46 +140,41 @@
     <nav class="w3-sidenav w3-signal-red" style="width:160px;">
 	<br>
     <a href="index.html"><i class="fa fa-home"></i> HOME</a>
-     <div class="w3-accordion">
-      <a onclick="DropdownFunc(ddl)" href="#">
-      <i class="fa fa-plus-square-o"></i> DDL <i class="fa fa-caret-down"></i>
-      </a>
-	 
-      <div id="ddl" class="w3-accordion-content w3-white">
-	     <!--DDL-CREATE-->
-         <div class="w3-accordion">           
-		 
-          <a onclick="DropdownFunc(dropcreate)" href="#">
-            <i class="fa fa-angle-right"></i> Create <i class="fa fa-caret-down"></i>
-          </a>
-          <div id="dropcreate" class="w3-accordion-content w3-white"   >
-            <a href="create_DB.html"><i class="fa fa-toggle-right"></i> Database</a>
-            <a href="create_table.html"><i class="fa fa-toggle-right"></i> Table</a>
-          </div>
-  
-		</div>
-		<!--DDL-ALTER-->
-		    <div class="w3-accordion">
-          <a onclick="DropdownFunc(dropalter)" href="alter.html">
-            <i class="fa fa-angle-right"></i> Alter 
-          </a>
 
-		</div>
-		<!--DDL-Drop-->
-          <a onclick="DropdownFunc(dropdrop)" href="#">
-            <i class="fa fa-angle-right"></i>Drop<i class="fa fa-caret-down"></i>
-          </a> 
- 		<div id="dropdrop" class="w3-accordion-content w3-white"  >
-            <a href="drop_database.html"><i class="fa fa-toggle-right"></i> Database</a>
-            <a href="drop_table.html"><i class="fa fa-toggle-right"></i> Table</a>
-          </div>
-		<!--DDL-Truncate-->
-        <a href="truncate.html"><i class="fa fa-angle-right"></i> Truncate</a>
+    <div class="w3-accordion">
+        <a onclick="DropdownFunc(ddl)" href="#">
+            <i class="fa fa-plus-square-o"></i> DDL <i class="fa fa-caret-down"></i>
+        </a>
 
-      </div>
-	  
+        <div id="ddl" class="w3-accordion-content w3-white">
+            <!--DDL-CREATE-->
+            <div class="w3-accordion">
 
-      
+                <a onclick="DropdownFunc(dropcreate)" href="#">
+                    <i class="fa fa-angle-right"></i> Create <i class="fa fa-caret-down"></i>
+                </a>
+                <div id="dropcreate" class="w3-accordion-content w3-white"   >
+                    <a href="create_DB.html"><i class="fa fa-toggle-right"></i> Database</a>
+                    <a href="create_table.html"><i class="fa fa-toggle-right"></i> Table</a>
+                </div>
+
+            </div>
+            <!--DDL-ALTER-->
+
+            <a  href="alter.html">
+                <i class="fa fa-angle-right"></i> Alter
+            </a>
+
+            <!--DDL-Drop-->
+            <a href="drop.html"> <i class="fa fa-angle-right"></i> Drop</a>
+            <!--DDL-Truncate-->
+            <a href="truncate.html"><i class="fa fa-angle-right"></i> Truncate</a>
+
+
+
+
+        </div>
+
     </div>
   
     <div class="w3-accordion">
@@ -251,6 +246,7 @@
                             </span>
 							
                         </p>
+
 						<p class="w3-right">
 							<button id="SUBMIT" class="w3-btn w3-signal-red w3-round-xlarge">SUBMIT</button>
 						</p>
@@ -275,6 +271,22 @@
             <!-- flow Chart section start -->
             <div id="chartWindow" class="w3-container w3-layout-col w3-bottombar w3-rightbar w3-border-light-grey" >
 				chart
+
+
+
+                    </div>
+                    <hr>
+                    <div class="w3-container w3-border-left w3-border-right w3-border-bottom">
+                        <p id = "DeleteTableOperation"></p>
+                    </div>
+                </div>
+                <!-- Action section end -->
+                <!-- flow Chart section start -->
+                <div id="chartWindow" class="w3-container w3-layout-col w3-bottombar w3-rightbar w3-border-light-grey" >
+                    <p>chart</p>
+                </div>
+                <!-- flow Chart section start end -->
+
             </div>
             <!-- flow Chart section start end -->
         </div>

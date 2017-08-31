@@ -7,70 +7,157 @@
 <link rel="stylesheet" href="http://www.w3schools.com/lib/w3-colors-signal.css">
 <link rel="stylesheet" href="http://www.w3schools.com/lib/w3-colors-food.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-</head>
-<body>
+
+
+
+
 
   <script>
-  function DropdownFunc(x) {
-        if (x.className.indexOf("w3-show") == -1) {
-          x.className += " w3-show";
-          x.previousElementSibling.className += "w3-signal-red";
-        } else {
-          x.className = x.className.replace(" w3-show", "");
-          x.previousElementSibling.className =
-          x.previousElementSibling.className.replace("w3-signal-red", "");
-        }
+      function DropdownFunc(x) {
+          if (x.className.indexOf("w3-show") == -1) {
+              x.className += " w3-show";
+              x.previousElementSibling.className += "w3-signal-red";
+          } else {
+              x.className = x.className.replace(" w3-show", "");
+              x.previousElementSibling.className =
+                  x.previousElementSibling.className.replace("w3-signal-red", "");
+          }
       }
 
+      function showFullTable(Tb)
+      {
+          var dbName = $('#dbDropDown').val();
 
-    function AddTagsOnclick(T)
-    {
-          var box = $("#sqlcmdarea");
-          box.val(box.val() +" "+ T);
-    }
+          var SelCmd = 'select * from '+Tb;
+          var tago="SelectExecution";
+          var dataString = 'tag='+ tago + '&SelCmd='+ SelCmd + '&dbName='+ dbName;
 
-  //when create button is clicked this logic send data and recieve result from queryExecutor
-      $(document).ready(function(){
-          $("#run").click(function(){
-            var alertMsg="";
-            var SelCmd = $("#sqlcmdarea").val();
-            var tago="SelectExecution";
-            var dataString = 'tag='+ tago + '&SelCmd='+ SelCmd;
-            if(SelCmd=='')
-            {
-                alertMsg="Please Fill All Field";
-                $("#alertBoxMain").show();
-                document.getElementById("alertBox").innerHTML=alertMsg;
-            }
-            else
-            {
-                  $.ajax({
+
+              $.ajax({
                   type: "POST",
                   url: "queryExecutor.php",
                   data: dataString,
                   success: function(result){
-                    alertMsg=result;
-                    var cmd = SelCmd;
-                    document.getElementById('id01').style.display='block'
-                    document.getElementById("DSHOW").innerHTML=alertMsg;
-                    document.getElementById("cmdWindow").innerHTML=cmd;
+
+                      document.getElementById("allShow").innerHTML=result;
+
                   }
+              });
+
+      }
+
+      function GetDbDropdownList()
+      {
+          var tago="DbDropdownList";
+          var dataString = 'tag='+ tago;
+          $.ajax({
+              type: "POST",
+              url: "queryExecutor.php",
+              dataType: 'json',
+              data: dataString,
+              success: function(result){
+                  var countItem = Object.keys(result).length;
+                  for (var i = 0; i < countItem; i++) {
+                      $('#dbDropDown')
+                          .append(
+
+                              '<option value="' + result[i] + '">' + result[i] + '</option>'
+                          );
+                  }
+              }
+          });
+      }
+
+      function GetTbTagList(tdbName)
+      {
+          document.getElementById("tbTags").innerHTML="";
+          var tago="TbDropdownList";
+          var dataString = 'tag='+ tago + '&dbName='+ tdbName;
+          $.ajax({
+              type: "POST",
+              url: "queryExecutor.php",
+              dataType: 'json',
+              data: dataString,
+              success: function(result){
+                  var countItem = Object.keys(result).length;
+
+                  for (var i = 0; i < countItem; i++) {
+                      $('#tbTags')
+                          .append(
+
+                              '<div id="'+ result[i] +'" class="w3-tag w3-round w3-hover-red w3-white w3-border w3-border-red" onclick="showFullTable(this.id)">'
+                              + result[i] +
+                              '</div>&nbsp'
+
+
+                          );
+                  }
+
+              }
+          });
+      }
+
+      function AddTagsOnclick(T)
+      {
+          var box = $("#sqlcmdarea");
+          box.val(box.val() +" "+ T);
+
+      }
+
+      //when create button is clicked this logic send data and recieve result from queryExecutor
+      $(document).ready(function(){
+          $("#run").click(function(){
+              var dbName = $('#dbDropDown').val();
+              var alertMsg="";
+              var SelCmd = $("#sqlcmdarea").val();
+              var tago="SelectExecution";
+              var dataString = 'tag='+ tago + '&SelCmd='+ SelCmd + '&dbName='+ dbName;
+              if(SelCmd=='')
+              {
+                  alertMsg="Please Fill All Field";
+                  $("#alertBoxMain").show();
+                  document.getElementById("alertBox").innerHTML=alertMsg;
+              }
+              else
+              {
+                  $.ajax({
+                      type: "POST",
+                      url: "queryExecutor.php",
+                      data: dataString,
+                      success: function(result){
+                          alertMsg=result;
+                          var cmd = SelCmd;
+                          document.getElementById('id01').style.display='block'
+                          document.getElementById("selTableShow").innerHTML=alertMsg;
+                          document.getElementById("cmdWindow").innerHTML=cmd;
+                      }
                   });
-            }
-        });
+              }
+          });
       });
 
-  //when reset button is clicked this logic reset input field and alertmsg
+      //when reset button is clicked this logic reset input field and alertmsg
       $(document).ready(function(){
           $("#clear").click(function(){
               var inputfield= document.getElementById('sqlcmdarea');
               inputfield.value= inputfield.defaultValue;
               var cmd = "SELECT ";
               document.getElementById("cmdWindow").innerHTML=cmd;
-            });
+              document.getElementById("tbTags").innerHTML="";
+              document.getElementById("allShow").innerHTML="";
           });
+      });
   </script>
+
+
+
+
+
+</head>
+<body onload="GetDbDropdownList();">
+
 
 <!-- side navigation bar start -->
   <nav class="w3-sidenav w3-signal-red" style="width:160px;">
@@ -101,13 +188,7 @@
         </a>
 
 		<!--DDL-Drop-->
-		<a onclick="DropdownFunc(dropdrop)" href="#">
-			<i class="fa fa-angle-right"></i> Drop <i class="fa fa-caret-down"></i>
-		</a>
-		<div id="dropdrop" class="w3-accordion-content w3-white"  >
-			<a href="drop_database.html"><i class="fa fa-toggle-right"></i> Database</a>
-			<a href="drop_table.html"><i class="fa fa-toggle-right"></i> Table</a>
-		</div>
+        <a href="drop.html"> <i class="fa fa-angle-right"></i> Drop</a>
 		<!--DDL-Truncate-->
         <a href="trucate.html"><i class="fa fa-angle-right"></i> Truncate</a>
 
@@ -159,14 +240,27 @@
             <div id="actionWindow" class="w3-container w3-layout-col w3-bottombar w3-leftbar w3-rightbar w3-border-light-grey" style="width:70%; height: 576px;">
 
 
-                <p><i class="fa fa-angle-double-right"></i></p>
+                <br>
                 <!-- Alert Box Section by default its hidden start-->
                 <div id="alertBoxMain" class="w3-panel w3-green" style="display:none">
                   <span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
                   <p id="alertBox"></p>
                 </div>
                 <!-- Alert Box Section by default its hidden end-->
+              <div class="w3-container w3-border-left w3-border-right w3-border-top ">
+                <p><label class="w3-label w3-text-blue">Select Database<span class="w3-text-red">*</span>:</label>
 
+                  <select id = "dbDropDown" name="DDD" onchange="GetTbTagList(this.value)">
+                    <option value = 0>Select Database</option>
+                  </select>
+                <span>&nbsp&nbsp<label class="w3-label w3-text-blue">Table Names :&nbsp</label></span>
+                  <span id = "tbTags">
+
+                            </span>
+                </p>
+
+
+              </div>
 
                   <textarea class="w3-light-grey" id ="sqlcmdarea" name="message" rows="7" cols="105"></textarea>
                   <br>
@@ -254,13 +348,24 @@
                     <div id="DISTINCT" class="w3-tag w3-round w3-hover-red  w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
                       DISTINCT
                     </div>
+                    <div id=";" class="w3-tag w3-round w3-hover-red  w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
+                      ;
+                    </div>
                   </p>
 
                 </div>
-                <div class="w3-container w3-center">
+                <div class="w3-container w3-border-left w3-border-right w3-center">
                 <p><button id = "clear" class="w3-btn w3-round-xlarge w3-signal-red">CLEAR</button>
                 <button id = "run" class="w3-btn w3-round-xlarge w3-signal-red">RUN</button></p></div>
 
+              <div class="w3-container w3-border-bottom w3-border-left w3-border-right  ">
+
+                <table id ="allShow" class = "w3-table-all">
+
+              </table>
+              <br>
+              </div>
+              <br>
               </div>
             <!-- Action section end -->
             <!-- flow Chart section start -->
@@ -273,8 +378,15 @@
         <div id="id01" class="w3-modal">
           <div class="w3-modal-content">
             <div class="w3-container">
-              <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-              <div id="DSHOW" class="w3-container"></div>
+              <span onclick="document.getElementById('id01').style.display='none'" class=" w3-white w3-button w3-display-topright"><i class="fa fa-close" style="font-size:25px;color:red"></i></span>
+              <div id="DSHOW" class="w3-container">
+                <br>
+                <br>
+                <table id = "selTableShow" class = "w3-table-all">
+
+                </table>
+                <br>
+              </div>
 
             </div>
           </div>
