@@ -212,7 +212,7 @@
         <!-- Query view section start-->
         <div class="w3-layout-container">
             <div class="w3-container w3-layout-col w3-bottombar w3-leftbar w3-rightbar w3-topbar  w3-border-light-grey" style="width:100%; height: 50px;">
-              <p id="cmdWindow">ALTER VIEW </p>
+              <p id="cmdWindow">RENAME VIEW </p>
             </div>
         </div>
         <!-- Query view section end -->
@@ -241,14 +241,16 @@
                                 </select>
               
                        </p>
-              <p><label class="w3-label w3-text-blue">Old View Name<span class="w3-text-red">*</span>:</label>
-                  <select id="oldvwnameInput" name="vwnameInput" class="w3-input w3-border-bottom" >
+            <hr>
+              <p><label class="w3-label w3-text-blue">Old View Name<span class="w3-text-red">*</span>: &nbsp </label>
+                  <select id="oldvwnameInput" name="vwnameInput"  >
 						<option value ="">Select View</option>
 						
 					</select></p>
+
                   <p><label class="w3-label w3-text-blue">New View Name<span class="w3-text-red">*</span>:</label>
                   <input id="newvwnameInput" class="w3-input w3-border-bottom" type="text"></p>
-                  <hr>
+
                   <p class="w3-right"><button id="CRE" class="w3-btn w3-signal-red w3-round-xlarge">RENAME</button>
                   <button id="RESET" class="w3-btn w3-signal-red w3-round-xlarge">RESET</button></p>
 

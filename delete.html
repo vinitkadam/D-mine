@@ -241,8 +241,8 @@
                 <!-- Alert Box Section by default its hidden end-->
 				
 				<!-- code for selecting database and displaying table structure  start-->
-				
-				<div class="w3-container w3-border-left w3-border">
+
+                <div class="w3-container w3-border-left w3-border-right w3-border-top ">
                         <p><label class="w3-label w3-text-blue">Select Database & Table <span class="w3-text-red">*</span>:</label>
 
                                 <select id = "dbnameInput" name="DDD"  onclick="GetTbDropdownList(this.value);">
@@ -258,24 +258,26 @@
                             </span>
 							
                         </p>
+<hr>
+
 
 						<p class="w3-right">
 							<button id="SUBMIT" class="w3-btn w3-signal-red w3-round-xlarge">SUBMIT</button>
-						</p>
+						</p> <br>
 
                 </div>	
 				<!-- code for selecting database and retrieving table structure  end-->
-				
-					<div>
-						<table id="tstructure" class="w3-table w3-striped w3-bordered">
+
+                <div class="w3-container w3-border-left w3-border-right w3-border-bottom ">
+						<table id="tstructure" class="w3-table-all">
 						
 						</table>
-					
+                    <br>
+
 					</div>				
 
 				
-				<br>
-				<br>
+
 				
 				</div>
 				
