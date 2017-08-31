@@ -539,7 +539,24 @@ case "deleteselectall":
 	}
 	break;
 
-case "delete":
+    case "CreateViewExecution":
+        $DB_Name=$_POST['db_Name'];
+        $query_Stat=$_POST['ViewCmd'];
+        if($conn->select_db($DB_Name))
+        {
+            $sql = $query_Stat;
+            if ($conn->query($sql) === TRUE) {
+                echo "View created successfully";
+            } else {
+                echo "Error creating table: " . $conn->error;
+            }
+        }
+        else {
+            echo "Database is not selected..!";
+        }
+        break;
+
+    case "delete":
 	$DB_Name=$_POST['dbName'];
 	$query_Stat=$_POST['Query'];
 	if($conn->select_db($DB_Name))
@@ -555,67 +572,70 @@ case "delete":
 		echo "Database does not exist";
 	}
 	break;
-case "dropView":
-    $drop_view=$_POST['dpViewName'];
-    $DB_Name=$_POST['dbName'];
-    $query_Stat=$_POST['Query'];
-    if($conn->select_db($DB_Name))
-    {
-        if(mysqli_query($conn,$query_Stat) == true)
-        {    
-            echo "View Dropped successfully";
-        }
-        else
-        {
-            echo "View not exist in database";
-        }
-    }
-    else
-    {
-        echo "Database does not exist";
-    }
-    break;
-case "renameView":
-    $DB_Name=$_POST['dbName'];
-    $query_Stat=$_POST['Query'];
-    if($conn->select_db($DB_Name))
-    {
-        if(mysqli_query($conn,$query_Stat) == true)
-        {
-            echo "View Rename sucessfully";
-        }
-        else
-        {
-            echo "View not exists in database";
-        }
-    }
-    else
-    {
-        echo "Database does not exist";
 
-    }
-    break;
-case "getviewslist":
-	$DB_Name=$_POST['dbName'];
-    $query=$_POST['Query'];
-    if($conn->select_db($DB_Name))
-    {
-		$result = $conn->query($query);
-        $rowCount = $result->num_rows;
-		echo "<option value=''>Select View</option>";
-        /* fetch associative array */
-        for($i=0; $i<$rowCount; $i++)
+    case "dropView":
+        $drop_view=$_POST['dpViewName'];
+        $DB_Name=$_POST['dbName'];
+        $query_Stat=$_POST['Query'];
+        if($conn->select_db($DB_Name))
         {
-            $result->data_seek($i);
-            $row = $result->fetch_array(MYSQL_NUM);
-            echo "<option value='".$row[0]."'>".$row[0]."</option>";
+            if(mysqli_query($conn,$query_Stat) == true)
+            {
+                echo "View Dropped successfully";
+            }
+            else
+            {
+                echo "View not exist in database";
+            }
         }
-        /* free result set */
-        $result->free();
-	}else{
-		echo "Database does not exist";
-	}
-	break;
+        else
+        {
+            echo "Database does not exist";
+        }
+        break;
+
+    case "renameView":
+        $DB_Name=$_POST['dbName'];
+        $query_Stat=$_POST['Query'];
+        if($conn->select_db($DB_Name))
+        {
+            if(mysqli_query($conn,$query_Stat) == true)
+            {
+                echo "View Rename sucessfully";
+            }
+            else
+            {
+                echo "View not exists in database";
+            }
+        }
+        else
+        {
+            echo "Database does not exist";
+        }
+        break;
+
+    case "getviewslist":
+        $DB_Name=$_POST['dbName'];
+        $query=$_POST['Query'];
+        if($conn->select_db($DB_Name))
+        {
+            $result = $conn->query($query);
+            $rowCount = $result->num_rows;
+            echo "<option value=''>Select View</option>";
+            /* fetch associative array */
+            for($i=0; $i<$rowCount; $i++)
+            {
+                $result->data_seek($i);
+                $row = $result->fetch_array(MYSQL_NUM);
+                echo "<option value='".$row[0]."'>".$row[0]."</option>";
+            }
+            /* free result set */
+            $result->free();
+        }else{
+            echo "Database does not exist";
+        }
+        break;
+	
     default:
         echo "Nothing to show";
 }
