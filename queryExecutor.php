@@ -131,7 +131,9 @@ case "SelectExecution":
     {
         $result=mysqli_query($conn,$Sel_Cmd);
 
-        echo "<tr>";
+        echo "<br>";
+        echo "<table class = 'w3-table w3-striped w3-hoverable w3-border-left w3-border-right w3-border-bottom'>";
+        echo "<tr class='w3-blue'>";
         while ($fieldinfo=mysqli_fetch_field($result))
         {
 
@@ -153,6 +155,8 @@ case "SelectExecution":
             echo "</tr>";
 
         }
+        echo "</table>";
+        echo "<br> <br>";
         $result->free();
 
     }
