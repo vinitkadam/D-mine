@@ -33,6 +33,16 @@
                 x.previousElementSibling.className.replace(" w3-light-grey", "");
             }
         }
+
+      function showANDhideBox(x){
+
+          if (x.style.display === 'none') {
+              x.style.display = 'block';
+          } else {
+              x.style.display = 'none';
+          }
+
+      }
     
     function GetDbDropdownList()
         {
@@ -128,7 +138,7 @@
     <a href="index.html"><i class="fa fa-home"></i> HOME</a>
      <div class="w3-accordion">
       <a onclick="DropdownFunc(ddl)" href="#">
-      <i class="fa fa-plus-square-o"></i> DDL <i class="fa fa-caret-down"></i>
+      <i class="fa fa-plus-square-o"></i> DDL Engine <i class="fa fa-caret-down"></i>
       </a>
    
       <div id="ddl" class="w3-accordion-content w3-white">
@@ -165,7 +175,7 @@
 
         <div class="w3-accordion">
             <a onclick="DropdownFunc(dml)" href="#">
-                <i class="fa fa-plus-square-o"></i> DML <i class="fa fa-caret-down"></i>
+                <i class="fa fa-plus-square-o"></i> DML Engine <i class="fa fa-caret-down"></i>
             </a>
             <div id="dml" class="w3-accordion-content w3-white">
                 <a href="select.html"><i class="fa fa-angle-right"></i> Select</a>
@@ -187,7 +197,10 @@
             </div>
 
         </div>
-    <a href="#"><i class="fa fa-globe"></i> HELP</a>
+        <a href="master_box.html"><i class="fa fa-edit"></i> DevEngine</a>
+        <a href="#"><i class="fa fa-question-circle-o"></i> Play Quiz</a>
+        <a href="#"><i class="fa fa-puzzle-piece"></i> Reference</a>
+        <a href="#"><i class="fa fa-globe"></i> HELP</a>
   </nav>
 <!-- side navigation bar end -->
 
@@ -205,7 +218,7 @@
         <!-- Query view section start-->
         <div class="w3-layout-container">
             <div class="w3-container w3-layout-col w3-bottombar w3-leftbar w3-rightbar w3-topbar  w3-border-light-grey" style="width:100%; height: 50px;">
-              <p id="cmdWindow">ALTER VIEW </p>
+              <p id="cmdWindow">DROP VIEW </p>
             </div>
         </div>
         <!-- Query view section end -->
@@ -234,12 +247,13 @@
                                 </select>
               
                        </p>
-              <p><label class="w3-label w3-text-blue">View Name<span class="w3-text-red">*</span>:</label>
-					<select id="vwnameInput" name="vwnameInput" class="w3-input w3-border-bottom" >
+            <hr>
+              <p><label class="w3-label w3-text-blue">View Name<span class="w3-text-red">*</span>: &nbsp &nbsp&nbsp&nbsp&nbsp&nbsp</label>
+					<select id="vwnameInput" name="vwnameInput"  >
 						<option value ="">Select View</option>
 						
 					</select>
-				  </p><hr>
+				  </p>
             <p class="w3-right"><button id="CRE" class="w3-btn w3-signal-red w3-round-xlarge">DROP</button>
                   <button id="RESET" class="w3-btn w3-signal-red w3-round-xlarge">RESET</button></p>
 
@@ -250,10 +264,43 @@
             <!-- Action section end -->
             <!-- flow Chart section start -->
             <div id="chartWindow" class="w3-container w3-layout-col w3-bottombar w3-rightbar w3-border-light-grey" >
-            <!-- flow Chart section start end -->
-            <p>chart</p>
+                <p>
+                    <div class="w3-panel w3-pale-green w3-border-left w3-border-green">
+                <p> <div class="w3-tag w3-round w3-green" style="padding:3px" onclick="showANDhideBox(description)">
+                <div class="w3-tag w3-round w3-green w3-border w3-border-white">
+                    Description :
+                </div>
+            </div></p>
+                <p id ="description">Once a VIEW has been created in MySQL, you can drop it with the DROP VIEW statement.</p>
+            </div>
+            </p>
+
+            <p>
+                <div class="w3-panel w3-pale-blue w3-border-left w3-border-blue">
+            <p> <div class="w3-tag w3-round w3-blue" style="padding:3px" onclick="showANDhideBox(syntax)">
+            <div class="w3-tag w3-round w3-blue w3-border w3-border-white">
+                Syntax :
+            </div>
+        </div></p>
+            <p id="syntax" >
+                DROP VIEW [IF EXISTS] view_name;
+            </p>
         </div>
+          </p>
+
+          <p>
+              <div class="w3-panel w3-pale-red w3-border-left w3-border-red">
+          <p> <div class="w3-tag w3-round w3-red" style="padding:3px" onclick="showANDhideBox(example)">
+          <div class="w3-tag w3-round w3-red w3-border w3-border-white">
+              Example :
+          </div>
+      </div></p>
+          <p id="example" >
+              DROP VIEW hardware_suppliers;
+          </p>
+         </div>
         </div>
+  </div>
 
     <footer class="w3-container w3-light-grey w3-border-top">
       <p class=" w3-right">Copyright © 2017 All rights reserved</p>

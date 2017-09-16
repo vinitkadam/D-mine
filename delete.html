@@ -33,6 +33,16 @@
                 x.previousElementSibling.className.replace(" w3-light-grey", "");
             }
         }
+
+        function showANDhideBox(x){
+
+            if (x.style.display === 'none') {
+                x.style.display = 'block';
+            } else {
+                x.style.display = 'none';
+            }
+
+        }
 		
 		function GetDbDropdownList()
         {
@@ -143,7 +153,7 @@
 
     <div class="w3-accordion">
         <a onclick="DropdownFunc(ddl)" href="#">
-            <i class="fa fa-plus-square-o"></i> DDL <i class="fa fa-caret-down"></i>
+            <i class="fa fa-plus-square-o"></i> DDL Engine <i class="fa fa-caret-down"></i>
         </a>
 
         <div id="ddl" class="w3-accordion-content w3-white">
@@ -178,7 +188,7 @@
 
         <div class="w3-accordion">
             <a onclick="DropdownFunc(dml)" href="#">
-                <i class="fa fa-plus-square-o"></i> DML <i class="fa fa-caret-down"></i>
+                <i class="fa fa-plus-square-o"></i> DML Engine <i class="fa fa-caret-down"></i>
             </a>
             <div id="dml" class="w3-accordion-content w3-white">
                 <a href="select.html"><i class="fa fa-angle-right"></i> Select</a>
@@ -200,8 +210,11 @@
             </div>
 
         </div>
-	  
-    <a href="#"><i class="fa fa-globe"></i> HELP</a>
+
+        <a href="master_box.html"><i class="fa fa-edit"></i> DevEngine</a>
+        <a href="#"><i class="fa fa-question-circle-o"></i> Play Quiz</a>
+        <a href="#"><i class="fa fa-puzzle-piece"></i> Reference</a>
+        <a href="#"><i class="fa fa-globe"></i> HELP</a>
   </nav>
 <!-- side navigation bar end -->
 
@@ -241,8 +254,8 @@
                 <!-- Alert Box Section by default its hidden end-->
 				
 				<!-- code for selecting database and displaying table structure  start-->
-				
-				<div class="w3-container w3-border-left w3-border">
+
+                <div class="w3-container w3-border-left w3-border-right w3-border-top ">
                         <p><label class="w3-label w3-text-blue">Select Database & Table <span class="w3-text-red">*</span>:</label>
 
                                 <select id = "dbnameInput" name="DDD"  onclick="GetTbDropdownList(this.value);">
@@ -258,38 +271,77 @@
                             </span>
 							
                         </p>
+<hr>
+
 
 						<p class="w3-right">
 							<button id="SUBMIT" class="w3-btn w3-signal-red w3-round-xlarge">SUBMIT</button>
-						</p>
+						</p> <br>
 
                 </div>	
 				<!-- code for selecting database and retrieving table structure  end-->
-				
-					<div>
-						<table id="tstructure" class="w3-table w3-striped w3-bordered">
+
+                <div class="w3-container w3-border-left w3-border-right w3-border-bottom ">
+						<table id="tstructure" class="w3-table-all">
 						
 						</table>
-					
+                    <br>
+
 					</div>				
 
 				
-				<br>
-				<br>
+
 				
 				</div>
 				
             <!-- Action section end -->
             <!-- flow Chart section start -->
             <div id="chartWindow" class="w3-container w3-layout-col w3-bottombar w3-rightbar w3-border-light-grey" >
-				chart
+                <p>
+                    <div class="w3-panel w3-pale-green w3-border-left w3-border-green">
+                <p> <div class="w3-tag w3-round w3-green" style="padding:3px" onclick="showANDhideBox(description)">
+                <div class="w3-tag w3-round w3-green w3-border w3-border-white">
+                    Description :
+                </div>
+            </div></p>
+                <p id ="description">The MySQL DELETE statement is used to delete a single record or multiple records from a table in MySQL.
+                </p>
+            </div>
+            </p>
 
+            <p>
+                <div class="w3-panel w3-pale-blue w3-border-left w3-border-blue">
+            <p> <div class="w3-tag w3-round w3-blue" style="padding:3px" onclick="showANDhideBox(syntax)">
+            <div class="w3-tag w3-round w3-blue w3-border w3-border-white">
+                Syntax :
+            </div>
+        </div></p>
+            <p id="syntax" >
+                DELETE FROM table
+                [WHERE conditions];
+            </p>
+        </div>
+          </p>
 
-
-
+          <p>
+              <div class="w3-panel w3-pale-red w3-border-left w3-border-red">
+          <p> <div class="w3-tag w3-round w3-red" style="padding:3px" onclick="showANDhideBox(example)">
+          <div class="w3-tag w3-round w3-red w3-border w3-border-white">
+              Example :
+          </div>
+      </div></p>
+          <p id="example" >
+              1) DELETE FROM contacts
+              WHERE name = 'Johnson';
+              <br><br>
+              2) SELECT count(*)
+              FROM contacts
+              WHERE last_name = 'Johnson'
+              AND contact_id < 1000;
+          </p>
 
             </div>
-
+        </div>
             <!-- flow Chart section start end -->
         </div>
 

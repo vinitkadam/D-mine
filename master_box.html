@@ -10,21 +10,19 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
-    <style>
-        textarea{
 
-            background: url(2cOaJ.png);
-            background-attachment: local;
-            background-repeat: no-repeat;
-            padding-left: 35px;
-            padding-top: 10px;
-            border-color:#ccc;
-        }
+<style>
+    textarea{
 
-    </style>
+    background: url(2cOaJ.png);
+    background-attachment: local;
+    background-repeat: no-repeat;
+    padding-left: 35px;
+    padding-top: 10px;
+    border-color:#ccc;
+    }
 
-
-
+</style>
     <script>
         function DropdownFunc(x) {
             if (x.className.indexOf("w3-show") == -1) {
@@ -37,15 +35,19 @@
             }
         }
 
-        function showANDhideBox(x){
-
-            if (x.style.display === 'none') {
-                x.style.display = 'block';
-            } else {
-                x.style.display = 'none';
+        function getText(elem) {
+            if(elem.tagName === "TEXTAREA") {
+                return elem.value.substring(elem.selectionStart,
+                    elem.selectionEnd);
             }
-
+            return null;
         }
+
+        setInterval(function() {
+            var txt = getText(document.getElementById('sqlcmdarea'))
+            document.getElementById('hiddenBox').value =txt;
+        }, 100);
+
 
         function showFullTable(Tb)
         {
@@ -62,7 +64,7 @@
                 data: dataString,
                 success: function(result){
 
-                    document.getElementById("allShow").innerHTML=result;
+                    document.getElementById("outputBox").innerHTML=result;
 
                 }
             });
@@ -120,36 +122,47 @@
             });
         }
 
-
-
         //when create button is clicked this logic send data and recieve result from queryExecutor
         $(document).ready(function(){
             $("#run").click(function(){
                 var dbName = $('#dbDropDown').val();
                 var alertMsg="";
+                var masterBoxCmd = $('#hiddenBox').val();
+                var dataString = '&Query='+ masterBoxCmd + '&dbName='+ dbName;
+                if(masterBoxCmd=='')
+                {
+                    alertMsg="Please select query  .... ";
+                    $("#alertBoxMain").show();
+                    document.getElementById("alertBox").innerHTML=alertMsg;
 
-                var ViewCmd = 'CREATE VIEW ' + $("#viewNameInput").val() + ' AS ' + $("#sqlcmdarea").val() +';';
-                var tago="CreateViewExecution";
-                var dataString = 'tag='+ tago + '&ViewCmd='+ ViewCmd + '&db_Name='+ dbName;
-
-
+                }
+                else
+                {
                     $.ajax({
                         type: "POST",
-                        url: "queryExecutor.php",
+                        url: "masterBoxExecutor.php",
                         data: dataString,
                         success: function(result){
-                            alertMsg=result;
-                            var cmd = ViewCmd;
-                            $("#alertBoxMain").show();
-                            document.getElementById("alertBox").innerHTML=alertMsg;
-                            document.getElementById("cmdWindow").innerHTML=cmd;
+
+                            document.getElementById("outputBox").innerHTML= result;
+
                         }
                     });
-
+                }
             });
         });
 
-
+        //when reset button is clicked this logic reset input field and alertmsg
+        $(document).ready(function(){
+            $("#clear").click(function(){
+                var inputfield= document.getElementById('sqlcmdarea');
+                inputfield.value= inputfield.defaultValue;
+                var cmd = "SELECT ";
+                document.getElementById("cmdWindow").innerHTML=cmd;
+                document.getElementById("tbTags").innerHTML="";
+                document.getElementById("allShow").innerHTML="";
+            });
+        });
     </script>
 
 
@@ -188,7 +201,7 @@
                 <i class="fa fa-angle-right"></i> Alter
             </a>
 
-            <!--DDL-Drop-->
+
             <!--DDL-Drop-->
             <a href="drop.html"> <i class="fa fa-angle-right"></i> Drop</a>
             <!--DDL-Truncate-->
@@ -225,6 +238,7 @@
 
     </div>
 
+
     <a href="master_box.html"><i class="fa fa-edit"></i> DevEngine</a>
     <a href="#"><i class="fa fa-question-circle-o"></i> Play Quiz</a>
     <a href="#"><i class="fa fa-puzzle-piece"></i> Reference</a>
@@ -241,29 +255,22 @@
     <!-- Logo and all end -->
 
     <div id="mainWindow">
-        <div class="w3-layout-container">
-            <!-- Query view section start-->
-            <div class="w3-layout-container">
-                <div class="w3-container w3-layout-col w3-bottombar w3-leftbar w3-rightbar w3-topbar  w3-border-light-grey" style="width:100%; height: 50px;">
-                    <p id="cmdWindow">CREATE OR REPLACE VIEW  </p>
-                </div>
-            </div>
-            <!-- Query view section end -->
 
 
-            <div class="w3-layout-container">
+            <div class="w3-container">
                 <!-- Action section start -->
-                <div id="actionWindow" class="w3-container w3-layout-col w3-bottombar w3-leftbar w3-rightbar w3-border-light-grey" style="width:70%; height: 576px;">
+                <div id="actionWindow" class="w3-container "  >
 
-
-                    <br>
                     <!-- Alert Box Section by default its hidden start-->
-                    <div id="alertBoxMain" class="w3-panel w3-green" style="display:none">
+                    <div id="alertBoxMain" class="w3-panel w3-pale-red   w3-leftbar w3-border-red" style="display:none">
                         <span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
                         <p id="alertBox"></p>
                     </div>
                     <!-- Alert Box Section by default its hidden end-->
-                    <div class="w3-container w3-border-left w3-border-right w3-border-top ">
+
+                    <input id ="hiddenBox" type="text" style="display:none">
+
+                    <p><div class="w3-container  w3-border  " >
                         <p><label class="w3-label w3-text-blue">Select Database<span class="w3-text-red">*</span>:</label>
 
                             <select id = "dbDropDown" name="DDD" onchange="GetTbTagList(this.value)">
@@ -275,84 +282,49 @@
                             </span>
                         </p>
 
-                        <p><label class="w3-label w3-text-blue">Create or Replace View <span class="w3-text-red">*</span>:</label>
-                            <input id="viewNameInput" class="w3-input w3-border-bottom" type="text"></p>
-                        <p><label class="w3-label w3-text-blue">AS :</label></p>
+                        <textarea class="w3-pale-blue" id ="sqlcmdarea" name="message" rows="13" cols="120" style="width:100%" autofocus></textarea>
+                        <p><button id = "run" class="w3-btn w3-right  w3-signal-red">RUN</button></p>
 
-                    </div>
-
-
-                    <textarea class="w3-light-grey" id ="sqlcmdarea" name="message" rows="7" cols="105"></textarea>
-                    <br>
-
-                    <div class="w3-container w3-border-left w3-border-right w3-center">
-                        <p>
-                            <button id = "run" class="w3-btn w3-round-xlarge w3-signal-red">Create View</button></p></div>
-
-                    <div class="w3-container w3-border-bottom w3-border-left w3-border-right  ">
-
-                        <table id ="allShow" class = "w3-table-all">
-
-                        </table>
                         <br>
-                    </div>
+
+                        <hr>
+                        <div id = "outputBox" class="w3-container  " >
+                            <div class="w3-center " style="opacity: 0.4"><h3 class=" w3-margin "><i class="fa fa-refresh fa-spin" style="font-size:24px"></i> .. <b>Output Box</b> ..
+                                <i class="fa fa-refresh fa-spin" style="font-size:24px"></i></h3><br><br><br><br>
+                            </div>
+                        </div>
+                    </div></p>
+
+
                     <br>
                 </div>
                 <!-- Action section end -->
-                <!-- flow Chart section start -->
-                <div id="chartWindow" class="w3-container w3-layout-col w3-bottombar w3-rightbar w3-border-light-grey" >
-                    <p>
-                        <div class="w3-panel w3-pale-green w3-border-left w3-border-green">
-                    <p> <div class="w3-tag w3-round w3-green" style="padding:3px" onclick="showANDhideBox(description)">
-                    <div class="w3-tag w3-round w3-green w3-border w3-border-white">
-                        Description :
-                    </div>
-                </div></p>
-                    <p id ="description">In MySQL, a VIEW is not a physical table, but rather,
-                        it is in essence a virtual table created by a query joining one or more tables.</p>
-                </div>
-                </p>
 
-                <p>
-                    <div class="w3-panel w3-pale-blue w3-border-left w3-border-blue">
-                <p> <div class="w3-tag w3-round w3-blue" style="padding:3px" onclick="showANDhideBox(syntax)">
-                <div class="w3-tag w3-round w3-blue w3-border w3-border-white">
-                    Syntax :
-                </div>
-            </div></p>
-                <p id="syntax" >
-                    CREATE [OR REPLACE] VIEW view_name AS
-                    SELECT columns
-                    FROM tables
-                    [WHERE conditions];
-                </p>
-            </div>
-            </p>
 
-            <p>
-                <div class="w3-panel w3-pale-red w3-border-left w3-border-red">
-            <p> <div class="w3-tag w3-round w3-red" style="padding:3px" onclick="showANDhideBox(example)">
-            <div class="w3-tag w3-round w3-red w3-border w3-border-white">
-                Example :
-            </div>
-        </div></p>
-            <p id="example" >
-                CREATE VIEW hardware_suppliers AS
-                SELECT supplier_id, supplier_name
-                FROM suppliers
-                WHERE category_type = 'Hardware';
-            </p>
-                </div>
-                </div>
-                <!-- flow Chart section start end -->
+
+</div>
+
+<div id="id01" class="w3-modal">
+    <div class="w3-modal-content">
+        <div class="w3-container">
+            <span onclick="document.getElementById('id01').style.display='none'" class=" w3-white w3-button w3-display-topright"><i class="fa fa-close" style="font-size:25px;color:red"></i></span>
+            <div id="DSHOW" class="w3-container">
+                <br>
+                <br>
+                <table id = "selTableShow" class = "w3-table-all">
+
+                </table>
+                <br>
             </div>
 
-
-
-            <footer class="w3-container w3-light-grey w3-border-top">
-                <p class=" w3-right">Copyright © 2017 All rights reserved</p>
-            </footer>
         </div>
+    </div>
+</div>
+
+<footer class="w3-container w3-light-grey w3-border-top">
+    <p class=" w3-right">Copyright © 2017 All rights reserved</p>
+</footer>
+</div>
 
 
 

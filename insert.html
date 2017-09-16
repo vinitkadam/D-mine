@@ -28,7 +28,15 @@
         }
 
 
+        function showANDhideBox(x){
 
+            if (x.style.display === 'none') {
+                x.style.display = 'block';
+            } else {
+                x.style.display = 'none';
+            }
+
+        }
 
         function GetDbDropdownList()
         {
@@ -235,7 +243,7 @@
     <a href="index.html"><i class="fa fa-home"></i> HOME</a>
     <div class="w3-accordion">
         <a onclick="DropdownFunc(ddl)" href="#">
-            <i class="fa fa-plus-square-o"></i> DDL <i class="fa fa-caret-down"></i>
+            <i class="fa fa-plus-square-o"></i> DDL Engine <i class="fa fa-caret-down"></i>
         </a>
 
         <div id="ddl" class="w3-accordion-content w3-white">
@@ -270,7 +278,7 @@
 
     <div class="w3-accordion">
         <a onclick="DropdownFunc(dml)" href="#">
-            <i class="fa fa-plus-square-o"></i> DML <i class="fa fa-caret-down"></i>
+            <i class="fa fa-plus-square-o"></i> DML Engine <i class="fa fa-caret-down"></i>
         </a>
         <div id="dml" class="w3-accordion-content w3-white">
             <a href="select.html"><i class="fa fa-angle-right"></i> Select</a>
@@ -292,7 +300,10 @@
         </div>
 
     </div>
-	  
+
+    <a href="master_box.html"><i class="fa fa-edit"></i> DevEngine</a>
+    <a href="#"><i class="fa fa-question-circle-o"></i> Play Quiz</a>
+    <a href="#"><i class="fa fa-puzzle-piece"></i> Reference</a>
     <a href="#"><i class="fa fa-globe"></i> HELP</a>
 </nav>
 <!-- side navigation bar end -->
@@ -374,8 +385,51 @@
                 <!-- Action section end -->
                 <!-- flow Chart section start -->
                 <div id="chartWindow" class="w3-container w3-layout-col w3-bottombar w3-rightbar w3-border-light-grey" >
-
+                    <p>
+                        <div class="w3-panel w3-pale-green w3-border-left w3-border-green">
+                    <p> <div class="w3-tag w3-round w3-green" style="padding:3px" onclick="showANDhideBox(description)">
+                    <div class="w3-tag w3-round w3-green w3-border w3-border-white">
+                        Description :
+                    </div>
+                </div></p>
+                    <p id ="description">The MySQL INSERT statement is used to insert a single record or multiple records into a table in MySQL.</p>
                 </div>
+                </p>
+
+                <p>
+                    <div class="w3-panel w3-pale-blue w3-border-left w3-border-blue">
+                <p> <div class="w3-tag w3-round w3-blue" style="padding:3px" onclick="showANDhideBox(syntax)">
+                <div class="w3-tag w3-round w3-blue w3-border w3-border-white">
+                    Syntax :
+                </div>
+            </div></p>
+                <p id="syntax" >
+                    INSERT INTO table
+                    (column1, column2, ... )
+                    VALUES
+                    (expression1, expression2, ... ),
+                    (expression1, expression2, ... ),
+                    ...;
+                </p>
+            </div>
+            </p>
+
+            <p>
+                <div class="w3-panel w3-pale-red w3-border-left w3-border-red">
+            <p> <div class="w3-tag w3-round w3-red" style="padding:3px" onclick="showANDhideBox(example)">
+            <div class="w3-tag w3-round w3-red w3-border w3-border-white">
+                Example :
+            </div>
+        </div>
+            </p>
+            <p id="example" >
+                INSERT INTO suppliers
+                (supplier_id, supplier_name)
+                VALUES
+                (1000, 'Dell');
+            </p>
+                </div>
+            </div>
                 <!-- flow Chart section start end -->
             </div>
 

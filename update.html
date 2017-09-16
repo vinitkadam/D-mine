@@ -61,7 +61,15 @@
           x.previousElementSibling.className.replace("w3-signal-red", "");
         }
       }
+    function showANDhideBox(x){
 
+        if (x.style.display === 'none') {
+            x.style.display = 'block';
+        } else {
+            x.style.display = 'none';
+        }
+
+    }
       function accordion(id) {
             var x = document.getElementById(id);
             if (x.className.indexOf("w3-show") == -1) {
@@ -215,7 +223,7 @@
 					alertMsg=result;
 					$("#alertBoxMain").show();
 					document.getElementById("alertBox").innerHTML=alertMsg;
-					document.getElementById("cmdWindow").innerHTML=query;
+					document.getElementById("cmdWindow").innerHTML=query + ';';
 					$("#id01").hide();
 					$("#SUBMIT").click();
 				}
@@ -232,7 +240,7 @@
     <a href="index.html"><i class="fa fa-home"></i> HOME</a>
      <div class="w3-accordion">
       <a onclick="DropdownFunc(ddl)" href="#">
-      <i class="fa fa-plus-square-o"></i> DDL <i class="fa fa-caret-down"></i>
+      <i class="fa fa-plus-square-o"></i> DDL Engine <i class="fa fa-caret-down"></i>
       </a>
 	 
       <div id="ddl" class="w3-accordion-content w3-white">
@@ -268,7 +276,7 @@
 
         <div class="w3-accordion">
             <a onclick="DropdownFunc(dml)" href="#">
-                <i class="fa fa-plus-square-o"></i> DML <i class="fa fa-caret-down"></i>
+                <i class="fa fa-plus-square-o"></i> DML Engine <i class="fa fa-caret-down"></i>
             </a>
             <div id="dml" class="w3-accordion-content w3-white">
                 <a href="select.html"><i class="fa fa-angle-right"></i> Select</a>
@@ -290,8 +298,11 @@
             </div>
 
         </div>
-	  
-    <a href="#"><i class="fa fa-globe"></i> HELP</a>
+
+        <a href="master_box.html"><i class="fa fa-edit"></i> DevEngine</a>
+        <a href="#"><i class="fa fa-question-circle-o"></i> Play Quiz</a>
+        <a href="#"><i class="fa fa-puzzle-piece"></i> Reference</a>
+        <a href="#"><i class="fa fa-globe"></i> HELP</a>
   </nav>
 <!-- side navigation bar end -->
 
@@ -307,7 +318,7 @@
 	
 	<!-- modal-->
 	<div id="id01" class="w3-modal">
-	  <div style="width:100%" class="w3-modal-content">
+	  <div  class="w3-modal-content">
 		<div class="w3-container">
 		  <span onclick="document.getElementById('id01').style.display='none'" class=" w3-white w3-button w3-display-topright"><i class="fa fa-close" style="font-size:25px;color:red"></i></span>
 		  <div id="DSHOW" class="w3-container">
@@ -350,8 +361,8 @@
                 <!-- Alert Box Section by default its hidden end-->
 				
 				<!-- code for selecting database and displaying table structure  start-->
-				
-				<div class="w3-container w3-border-left w3-border">
+
+                <div class="w3-container w3-border-left w3-border-right w3-border-top ">
                         <p><label class="w3-label w3-text-blue">Select Database & Table <span class="w3-text-red">*</span>:</label>
 
                                 <select id = "dbnameInput" name="DDD"  onclick="GetTbDropdownList(this.value);">
@@ -367,20 +378,23 @@
                             </span>
 							
                         </p>
+                    <hr>
 						<p class="w3-right">
 							<button id="SUBMIT" class="w3-btn w3-signal-red w3-round-xlarge">SUBMIT</button>
 						</p>
+                    <br>
 
                 </div>	
 				<!-- code for selecting database and retrieving table structure  end-->
-				
-					<div>
-						<table id="tstructureheading" class="w3-table w3-striped w3-bordered">
+
+                <div class="w3-container w3-border-left w3-border-right w3-border-bottom ">
+						<table id="tstructureheading" class="w3-table-all ">
 						
 						</table>
-						<table id="tstructure" class="w3-table w3-striped w3-bordered">
+						<table id="tstructure" class="w3-table-all ">
 						
 						</table>
+                    <br>
 					
 					</div>				
 
@@ -393,9 +407,49 @@
             <!-- Action section end -->
             <!-- flow Chart section start -->
             <div id="chartWindow" class="w3-container w3-layout-col w3-bottombar w3-rightbar w3-border-light-grey" >
-            
-				chart
+                <p>
+                    <div class="w3-panel w3-pale-green w3-border-left w3-border-green">
+                <p> <div class="w3-tag w3-round w3-green" style="padding:3px" onclick="showANDhideBox(description)">
+                <div class="w3-tag w3-round w3-green w3-border w3-border-white">
+                    Description :
+                </div>
+            </div></p>
+                <p id ="description">The MySQL UPDATE statement is used to update existing records in a table in a MySQL database.
+                    There are 3 syntaxes for the UPDATE statement depending on the type of update that you wish to perform..</p>
             </div>
+            </p>
+
+            <p>
+                <div class="w3-panel w3-pale-blue w3-border-left w3-border-blue">
+            <p> <div class="w3-tag w3-round w3-blue" style="padding:3px" onclick="showANDhideBox(syntax)">
+            <div class="w3-tag w3-round w3-blue w3-border w3-border-white">
+                Syntax :
+            </div>
+        </div></p>
+            <p id="syntax" style="display:none">
+                UPDATE table
+                SET column1 = expression1,
+                column2 = expression2,
+                ...
+                [WHERE conditions];
+            </p>
+        </div>
+          </p>
+
+          <p>
+              <div class="w3-panel w3-pale-red w3-border-left w3-border-red">
+          <p> <div class="w3-tag w3-round w3-red" style="padding:3px" onclick="showANDhideBox(example)">
+          <div class="w3-tag w3-round w3-red w3-border w3-border-white">
+              Example :
+          </div>
+      </div></p>
+          <p id="example" style="display:none">
+              UPDATE customers
+              SET last_name = 'Anderson'
+              WHERE customer_id = 5000;
+          </p>
+            </div>
+    </div>
             <!-- flow Chart section start end -->
         </div>
 

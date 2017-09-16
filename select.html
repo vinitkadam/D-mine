@@ -11,7 +11,18 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 
+    <style>
+      textarea{
 
+        background: url(2cOaJ.png);
+        background-attachment: local;
+        background-repeat: no-repeat;
+        padding-left: 35px;
+        padding-top: 10px;
+        border-color:#ccc;
+      }
+
+    </style>
 
 
   <script>
@@ -24,6 +35,16 @@
               x.previousElementSibling.className =
                   x.previousElementSibling.className.replace("w3-signal-red", "");
           }
+      }
+
+      function showANDhideBox(x){
+
+          if (x.style.display === 'none') {
+              x.style.display = 'block';
+          } else {
+              x.style.display = 'none';
+          }
+
       }
 
       function showFullTable(Tb)
@@ -41,7 +62,7 @@
                   data: dataString,
                   success: function(result){
 
-                      document.getElementById("allShow").innerHTML=result;
+                      document.getElementById("opBox").innerHTML=result;
 
                   }
               });
@@ -165,7 +186,7 @@
     <a href="index.html"><i class="fa fa-home"></i> HOME</a>
      <div class="w3-accordion">
       <a onclick="DropdownFunc(ddl)" href="#">
-      <i class="fa fa-plus-square-o"></i> DDL <i class="fa fa-caret-down"></i>
+      <i class="fa fa-plus-square-o"></i> DDL Engine <i class="fa fa-caret-down"></i>
       </a>
 
       <div id="ddl" class="w3-accordion-content w3-white">
@@ -201,7 +222,7 @@
 
     <div class="w3-accordion">
       <a onclick="DropdownFunc(dml)" href="#">
-        <i class="fa fa-plus-square-o"></i> DML <i class="fa fa-caret-down"></i>
+        <i class="fa fa-plus-square-o"></i> DML Engine <i class="fa fa-caret-down"></i>
       </a>
       <div id="dml" class="w3-accordion-content w3-white">
         <a href="select.html"><i class="fa fa-angle-right"></i> Select</a>
@@ -223,7 +244,10 @@
       </div>
 
     </div>
-	  
+
+    <a href="master_box.html"><i class="fa fa-edit"></i> DevEngine</a>
+    <a href="#"><i class="fa fa-question-circle-o"></i> Play Quiz</a>
+    <a href="#"><i class="fa fa-puzzle-piece"></i> Reference</a>
     <a href="#"><i class="fa fa-globe"></i> HELP</a>
   </nav>
 <!-- side navigation bar end -->
@@ -274,9 +298,9 @@
 
               </div>
 
-                  <textarea class="w3-light-grey" id ="sqlcmdarea" name="message" rows="7" cols="105"></textarea>
+                  <textarea class="w3-light-grey" id ="sqlcmdarea" name="message" rows="7" cols="105" autofocus></textarea>
                   <br>
-                <div class="w3-container w3-border">
+                <div class="w3-container w3-border-left w3-border-right ">
                   <p>
                     <div id="SELECT" class="w3-tag w3-round w3-hover-red w3-white w3-border w3-border-red" onclick="AddTagsOnclick(this.id)">
                       SELECT
@@ -370,20 +394,61 @@
                 <p><button id = "clear" class="w3-btn w3-round-xlarge w3-signal-red">CLEAR</button>
                 <button id = "run" class="w3-btn w3-round-xlarge w3-signal-red">RUN</button></p></div>
 
-              <div class="w3-container w3-border-bottom w3-border-left w3-border-right  ">
+              <div id="opBox" class="w3-container w3-border-bottom w3-border-left w3-border-right  ">
 
-                <table id ="allShow" class = "w3-table-all">
 
-              </table>
-              <br>
+
               </div>
               <br>
               </div>
             <!-- Action section end -->
             <!-- flow Chart section start -->
             <div id="chartWindow" class="w3-container w3-layout-col w3-bottombar w3-rightbar w3-border-light-grey" >
-              <p>chart</p>
+              <p>
+                <div class="w3-panel w3-pale-green w3-border-left w3-border-green">
+              <p> <div class="w3-tag w3-round w3-green" style="padding:3px" onclick="showANDhideBox(description)">
+              <div class="w3-tag w3-round w3-green w3-border w3-border-white">
+                Description :
+              </div>
+            </div></p>
+              <p id ="description">The MySQL SELECT statement is used to retrieve records from one or more tables in MySQL.</p>
             </div>
+          </p>
+
+          <p>
+            <div class="w3-panel w3-pale-blue w3-border-left w3-border-blue">
+          <p> <div class="w3-tag w3-round w3-blue" style="padding:3px" onclick="showANDhideBox(syntax)">
+          <div class="w3-tag w3-round w3-blue w3-border w3-border-white">
+            Syntax :
+          </div>
+        </div></p>
+          <p id="syntax" >SELECT expressions
+            FROM tables
+            [WHERE conditions];</p>
+        </div>
+        </p>
+
+        <p>
+          <div class="w3-panel w3-pale-red w3-border-left w3-border-red">
+        <p> <div class="w3-tag w3-round w3-red" style="padding:3px" onclick="showANDhideBox(example)">
+        <div class="w3-tag w3-round w3-red w3-border w3-border-white">
+          Example :
+        </div>
+      </div></p>
+        <p id="example" >
+         1) SELECT *
+          FROM order_details
+          WHERE quantity >= 10
+          ORDER BY quantity DESC;
+          <br><br>
+          2) SELECT order_details.order_id, customers.customer_name
+          FROM customers
+          INNER JOIN order_details
+          ON customers.customer_id = order_details.customer_id
+          ORDER BY order_id;
+        </p>
+            </div>
+    </div>
             <!-- flow Chart section start end -->
         </div>
 
@@ -391,13 +456,8 @@
           <div class="w3-modal-content">
             <div class="w3-container">
               <span onclick="document.getElementById('id01').style.display='none'" class=" w3-white w3-button w3-display-topright"><i class="fa fa-close" style="font-size:25px;color:red"></i></span>
-              <div id="DSHOW" class="w3-container">
-                <br>
-                <br>
-                <table id = "selTableShow" class = "w3-table-all">
+              <div id="selTableShow" class="w3-container">
 
-                </table>
-                <br>
               </div>
 
             </div>
