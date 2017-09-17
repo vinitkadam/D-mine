@@ -10,7 +10,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 	<script>
-	
+
 	function login()
 	{
 		var roll_no = $("#roll_no").val();
@@ -34,7 +34,7 @@
 			}
 		});
 	}
-	
+
 	</script>
 </head>
 <body>
@@ -54,14 +54,15 @@
 			</div>
 			<!-- Alert Box Section by default its hidden end-->
 			<h2 class="w3-center">Login</h2>
-								
-				<label><b>Roll Number</b></label>
-				<input class="w3-input" "type="text" placeholder="Enter Roll Number" name="roll_no" id="roll_no" style="margin-bottom:10px;" required>
-				<label><b>Password</b></label>
+
+				<label><b>Roll Number :</b></label>
+				<input class="w3-input" type="text" placeholder="Enter Roll Number" name="roll_no" id="roll_no" style="margin-bottom:10px;" required>
+				<label><b>Password :</b></label>
 				<input class="w3-input" type="password" placeholder="Enter Password" name="password" id="password" style="margin-bottom:10px;" required>
-				<p style="text-align:right;"><a href="forgotpass.php" class="w3-text-blue" >Forgot password</a></p>
-				<button class="w3-btn w3-green w3-round-xlarge " style="width:100%; margin-bottom:15px;" name="login" id="login" onclick="login();">Login</button>
-				<a class="w3-btn w3-round-xlarge w3-light-blue" style="width:100%; margin-bottom:15px;" href="register.html">Register here</a>
+				<p style="text-align:right;"><a href="forgotpass.html" class="w3-text-blue" >Forgot password</a></p>
+
+				<p><button class="w3-btn w3-green w3-round "  name="login" id="login" onclick="login();">Login</button>
+				<a class="w3-btn w3-round w3-blue"  href="register.html">Register here</a></p>
 		</div>
 </div>
 
