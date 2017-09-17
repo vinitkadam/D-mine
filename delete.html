@@ -43,7 +43,7 @@
             }
 
         }
-		
+
 		function GetDbDropdownList()
         {
             var tago="DbDropdownList";
@@ -92,9 +92,9 @@
                 }
             });
         }
-		
+
 		$(document).ready(function(){
-			
+
           $("#SUBMIT").click(function(){
             var alertMsg="";
             dbname = $("#dbnameInput").val();
@@ -122,7 +122,7 @@
             }
         });
       });
-	  
+
 	  function deleterow(pkeyname,pkeyval)
 	  {
 		var query = "Delete from "+tname+" where "+pkeyname+" = "+pkeyval;
@@ -143,10 +143,10 @@
 				}
 			});
 	  }
-	  
+
   </script>
 
-<!-- side navigation bar start -->  
+<!-- side navigation bar start -->
     <nav class="w3-sidenav w3-signal-red" style="width:160px;">
 	<br>
     <a href="index.html"><i class="fa fa-home"></i> HOME</a>
@@ -222,12 +222,12 @@
   <div class="w3-main" style="margin-left:160px">
     <!-- Logo and all start -->
     <header class="w3-container w3-light-grey w3-border-bottom">
-      <h3>LOGO</h3>
+		<h3 id="topheader"><img src="images/logo.png" height="40px"> <button class="w3-btn w3-round-xlarge w3-signal-red w3-right w3-medium" onclick="logout();" >Logout</button></h3>
     </header>
     <!-- Logo and all end -->
 
     <div id="mainWindow">
-	
+
 
 
       <div class="w3-layout-container">
@@ -243,7 +243,7 @@
         <div class="w3-layout-container">
             <!-- Action section start -->
             <div id="actionWindow" class="w3-container w3-layout-col w3-bottombar w3-leftbar w3-rightbar w3-border-light-grey" style="width:70%; height: 576px;">
-				
+
 
                   <p><i class="	fa fa-angle-double-right"></i> Data Deletion</p>
                 <!-- Alert Box Section by default its hidden start-->
@@ -252,7 +252,7 @@
                   <p id="alertBox"></p>
                 </div>
                 <!-- Alert Box Section by default its hidden end-->
-				
+
 				<!-- code for selecting database and displaying table structure  start-->
 
                 <div class="w3-container w3-border-left w3-border-right w3-border-top ">
@@ -269,7 +269,7 @@
                                     <option value = 0>Select Table</option>
                                 </select>
                             </span>
-							
+
                         </p>
 <hr>
 
@@ -278,22 +278,22 @@
 							<button id="SUBMIT" class="w3-btn w3-signal-red w3-round-xlarge">SUBMIT</button>
 						</p> <br>
 
-                </div>	
+                </div>
 				<!-- code for selecting database and retrieving table structure  end-->
 
                 <div class="w3-container w3-border-left w3-border-right w3-border-bottom ">
 						<table id="tstructure" class="w3-table-all">
-						
+
 						</table>
                     <br>
 
-					</div>				
+					</div>
 
-				
 
-				
+
+
 				</div>
-				
+
             <!-- Action section end -->
             <!-- flow Chart section start -->
             <div id="chartWindow" class="w3-container w3-layout-col w3-bottombar w3-rightbar w3-border-light-grey" >

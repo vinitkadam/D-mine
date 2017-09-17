@@ -43,7 +43,7 @@
           }
 
       }
-    
+
     function GetDbDropdownList()
         {
             var tago="DbDropdownList";
@@ -66,7 +66,7 @@
             });
         }
 
-       
+
     $(document).ready(function(){
           $("#CRE").click(function(){
             var alertMsg="";
@@ -112,7 +112,7 @@
 					alertMsg=result;
                         $('#vwnameInput').html(alertMsg);
                     }
-		
+
 		});
 
 	}
@@ -121,18 +121,18 @@
               var name = $("#vwnameInput").val();
               var inputfield= document.getElementById('vwnameInput');
               inputfield.value= inputfield.defaultValue;
-              
+
               var cmd = "DROP VIEW";
               document.getElementById("alertBox").innerHTML="";
               $("#alertBoxMain").hide();
               document.getElementById("cmdWindow").innerHTML=cmd;
             });
           });
-    
-    
+
+
   </script>
 
-<!-- side navigation bar start -->  
+<!-- side navigation bar start -->
     <nav class="w3-sidenav w3-signal-red" style="width:160px;">
   <br>
     <a href="index.html"><i class="fa fa-home"></i> HOME</a>
@@ -140,11 +140,11 @@
       <a onclick="DropdownFunc(ddl)" href="#">
       <i class="fa fa-plus-square-o"></i> DDL Engine <i class="fa fa-caret-down"></i>
       </a>
-   
+
       <div id="ddl" class="w3-accordion-content w3-white">
        <!--DDL-CREATE-->
-         <div class="w3-accordion">           
-     
+         <div class="w3-accordion">
+
           <a onclick="DropdownFunc(dropcreate)" href="#">
             <i class="fa fa-angle-right"></i> Create <i class="fa fa-caret-down"></i>
           </a>
@@ -152,12 +152,12 @@
             <a href="create_DB.html"><i class="fa fa-toggle-right"></i> Database</a>
             <a href="create_table.html"><i class="fa fa-toggle-right"></i> Table</a>
           </div>
-  
+
     </div>
     <!--DDL-ALTER-->
         <div class="w3-accordion">
           <a onclick="DropdownFunc(dropalter)" href="alter.html">
-            <i class="fa fa-angle-right"></i> Alter 
+            <i class="fa fa-angle-right"></i> Alter
           </a>
 
     </div>
@@ -208,7 +208,7 @@
   <div class="w3-main" style="margin-left:160px">
     <!-- Logo and all start -->
     <header class="w3-container w3-light-grey w3-border-bottom">
-      <h3>LOGO</h3>
+		<h3 id="topheader"><img src="images/logo.png" height="40px"> <button class="w3-btn w3-round-xlarge w3-signal-red w3-right w3-medium" onclick="logout();" >Logout</button></h3>
     </header>
     <!-- Logo and all end -->
 
@@ -236,30 +236,30 @@
                   <p id="alertBox"></p>
                 </div>
                 <!-- Alert Box Section by default its hidden end-->
-        
+
         <!-- code for selecting database and displaying table structure  start-->
-        
+
         <div class="w3-container w3-border-left w3-border">
                    <p><label class="w3-label w3-text-blue">Select Database  <span class="w3-text-red">*</span>:</label>
 
                                 <select id = "dbnameInput" name="DDD"  onclick="GetViewsList(this.value);">
                                     <option value = 0>Select Database</option>
                                 </select>
-              
+
                        </p>
             <hr>
               <p><label class="w3-label w3-text-blue">View Name<span class="w3-text-red">*</span>: &nbsp &nbsp&nbsp&nbsp&nbsp&nbsp</label>
 					<select id="vwnameInput" name="vwnameInput"  >
 						<option value ="">Select View</option>
-						
+
 					</select>
 				  </p>
             <p class="w3-right"><button id="CRE" class="w3-btn w3-signal-red w3-round-xlarge">DROP</button>
                   <button id="RESET" class="w3-btn w3-signal-red w3-round-xlarge">RESET</button></p>
 
-                </div>  
+                </div>
         <!-- code for selecting database and retrieving table structure  end-->
-        
+
 </div>
             <!-- Action section end -->
             <!-- flow Chart section start -->
