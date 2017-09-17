@@ -62,7 +62,8 @@
                   data: dataString,
                   success: function(result){
 
-                      document.getElementById("opBox").innerHTML=result;
+                      document.getElementById('id01').style.display='block'
+                      document.getElementById("selTableShow").innerHTML=result;
 
                   }
               });
@@ -390,15 +391,11 @@
                   </p>
 
                 </div>
-                <div class="w3-container w3-border-left w3-border-right w3-center">
+                <div class="w3-container w3-border-left w3-border-bottom w3-border-right w3-center">
                 <p><button id = "clear" class="w3-btn w3-round-xlarge w3-signal-red">CLEAR</button>
                 <button id = "run" class="w3-btn w3-round-xlarge w3-signal-red">RUN</button></p></div>
 
-              <div id="opBox" class="w3-container w3-border-bottom w3-border-left w3-border-right  ">
 
-
-
-              </div>
               <br>
               </div>
             <!-- Action section end -->
@@ -456,7 +453,7 @@
           <div class="w3-modal-content">
             <div class="w3-container">
               <span onclick="document.getElementById('id01').style.display='none'" class=" w3-white w3-button w3-display-topright"><i class="fa fa-close" style="font-size:25px;color:red"></i></span>
-              <div id="selTableShow" class="w3-container">
+              <div id="selTableShow" class="w3-container" style =" overflow: scroll; overflow-y: hidden;">
 
               </div>
 
