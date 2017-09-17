@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="http://www.w3schools.com/lib/w3-colors-food.css">
 <link rel="stylesheet" href="http://www.w3schools.com/lib/w3-theme-red.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 <body>
   <script>
@@ -21,7 +22,21 @@
           x.previousElementSibling.className.replace("w3-signal-red", "");
         }
       }
-
+	
+	function logout()
+	{
+		var tago = "logout";
+		var dataValues  = 'tag='+tago;
+		$.ajax({
+		type: "POST",
+		url: "queryExecutor.php",
+		data: dataValues,
+		success: function(result){
+			document.getElementById('topheader').innerHTML = "Logout successfull. Redirecting to login page..&nbsp;<i class='fa fa-spinner fa-spin' aria-hidden='true'></i>";
+			setInterval(function(){window.location.replace("login.html")},2000);
+		}
+		});
+	}
   </script>
 
 
@@ -107,9 +122,9 @@
 
   <div class="w3-main" style="margin-left:160px">
     <header class="w3-container w3-light-grey w3-border-bottom">
-      <h3>LOGO</h3>
+		<h3 id="topheader"><img src="images/logo.png" height="40px"> <button class="w3-btn w3-round-xlarge w3-light-blue w3-right w3-medium" onclick="logout();" >Logout</button></h3>
     </header>
-    <div id="mainWindow">
+    <div id="mainWindow"> 
       <div class="w3-layout-container">
           <div class="w3-container w3-layout-col w3-bottombar w3-leftbar w3-rightbar w3-topbar  w3-border-light-grey " style="width:100%; height: 50px;">
             <p>command</p>
