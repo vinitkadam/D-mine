@@ -156,7 +156,7 @@ case "SelectExecution":
 
         }
         echo "</table></p>";
-      
+
         $result->free();
 
     }
@@ -331,8 +331,9 @@ case "SelectExecution":
             for($i=0; $i<$rowCount; $i++)
             {
                 $result->data_seek($i);
+                $finfo = $result->fetch_field_direct(1);
                 $row = $result->fetch_array(MYSQL_NUM);
-                $list[$i] = $row[0];
+                $list[$i] = $row[0]. "  [" .$finfo->type. "]";
             }
             echo json_encode($list);
 
