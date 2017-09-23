@@ -51,7 +51,7 @@
 		var dataValues = 'tag='+ tago + '&roll_no='+ roll_no +'&name='+ name + '&password='+ password + '&cpassword='+ cpassword + '&email=' + email + '&division='+ division + '&batch=' + 	batch;
 		$.ajax({
 			type: "POST",
-			url: "queryExecutor.php",
+			url: "registerExe.php",
 			data: dataValues,
 			success: function(data){
 				data = JSON.parse(data);

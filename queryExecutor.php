@@ -519,47 +519,6 @@ case "deleteselectall":
         break;
 
 
-
-	case "register":
-		$rollno=$_POST['roll_no'];
-		$name=$_POST['name'];
-		$password=$_POST['password'];
-		$cpassword=$_POST['cpassword'];
-		$email=$_POST['email'];
-		$division=$_POST['division'];
-		$batch=$_POST['batch'];
-		$year = date("Y");
-		$con=mysqli_connect("localhost","root","","dmine") or die ('I cannot connect to the database because: ' . mysql_error());
-		$response = array();
-
-		$query = "INSERT INTO students(roll_no,password,name,email,division,batch,year) VALUES ('$rollno','$password','$name','$email','$division','$batch','$year')";
-			if($password==$cpassword)
-			{
-				if(mysqli_query($con,$query))
-		        {
-					$DBName1=$rollno;
-					$sql = "CREATE DATABASE $DBName1";
-					if ($conn->query($sql) === TRUE) {
-						$response['registration_success'] = true;
-					} else {
-						$response['registraion_success'] = false;
-						$response['registration_error'] = "Error creating database: " . $conn->error;
-					}
-		        }
-		        else
-		        {
-		        	$response['registration_success'] = false;
-					$response['registration_error'] = "Error: ".$con->error;
-		        }
-
-			}else{
-				$response['registraion_success'] = false;
-				$response['registration_error'] = "Passwords did not match";
-			}
-			echo json_encode($response);
-
-	break;
-
 	case "logout":
 		session_start();
 		unset($_SESSION['roll_no']);
