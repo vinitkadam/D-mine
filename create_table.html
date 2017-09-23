@@ -37,17 +37,14 @@
           $.ajax({
               type: "POST",
               url: "queryExecutor.php",
-              dataType: 'json',
+              
               data: dataString,
               success: function(result){
-                  var countItem = Object.keys(result).length;
-                  for (var i = 0; i < countItem; i++) {
-                      $('#dbDropDown')
-                          .append(
 
-                              '<option value="' + result[i] + '">' + result[i] + '</option>'
-                          );
-                  }
+
+                      $('#DBNAME').val() = result;
+
+
               }
           });
       }
@@ -144,28 +141,21 @@
       </a>
 
       <div id="ddl" class="w3-accordion-content w3-white">
-	     <!--DDL-CREATE-->
+       <!--DDL-CREATE-->
          <div class="w3-accordion">
-
-          <a onclick="DropdownFunc(dropcreate)" href="#">
-            <i class="fa fa-angle-right"></i> Create <i class="fa fa-caret-down"></i>
-          </a>
-          <div id="dropcreate" class="w3-accordion-content w3-white"   >
-            <a href="create_DB.html"><i class="fa fa-toggle-right"></i> Database</a>
-            <a href="create_table.html"><i class="fa fa-toggle-right"></i> Table</a>
-          </div>
-
-		</div>
-		<!--DDL-ALTER-->
-        <a  href="alter.html">
-          <i class="fa fa-angle-right"></i> Alter
-        </a>
-        <!--DDL-Drop-->
-        <a href="drop.html"> <i class="fa fa-angle-right"></i> Drop</a>
-        <!--DDL-Truncate-->
-        <a href="truncate.html"><i class="fa fa-angle-right"></i> Truncate</a>
-
-      </div>
+            <a href="create_table.html"><i class="fa fa-angle-right"></i> Create Table</a>
+         </div>
+    <!--DDL-ALTER-->
+        <div class="w3-accordion">
+                <a  href="alter.html">
+                    <i class="fa fa-angle-right"></i> Alter Table
+                </a>
+         </div>
+          <!--DDL-Drop-->
+          <a href="drop.html"> <i class="fa fa-angle-right"></i> Drop Table</a>
+          <!--DDL-Truncate-->
+          <a href="truncate.html"><i class="fa fa-angle-right"></i> Truncate Table</a>
+       </div>
 
 
 
@@ -236,9 +226,11 @@
               <!-- Alert Box Section by default its hidden end -->
                 <div class="w3-container w3-border">
                   <p><label class="w3-label w3-text-blue">Database Name<span class="w3-text-red">*</span>:</label>
-                    <select id = "dbDropDown" name="DDD">
-                      <option value = 0>Select Database</option>
-                    </select>
+                    <div class="w3-tag w3-round w3-green" style="padding:3px">
+                      <div id = "DBNAME" class="w3-tag w3-round w3-green w3-border w3-border-white">
+
+                      </div>
+                    </div>
                   <p><label class="w3-label w3-text-blue">Table Name<span class="w3-text-red">*</span>:</label>
                   <input id="TbnameInput" class="w3-input w3-border-bottom" type="text"></p>
                   <table>
