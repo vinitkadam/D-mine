@@ -15,9 +15,9 @@ switch ($first)
 
 
             if ($conn->query($sql) === TRUE) {
-                echo "<p class=' w3-text-green'>Created successfully ...... :)</p> <br><br><br><br><br><br>";
+                echo "<p class=' w3-text-green'>Created successfully ...... :)</p> <br><br>";
             } else {
-                echo "<p class=' w3-text-red'><b>Erorrs : </b> " . $conn->error. "</p><br><br><br><br><br>";
+                echo "<p class=' w3-text-red'><b>Erorrs : </b> " . $conn->error. "</p><br><br>";
             }
 
 
@@ -27,9 +27,9 @@ switch ($first)
 
 
             if ($conn->query($sql) === TRUE) {
-                echo "<p class=' w3-text-green'>Droped successfully ...... :)</p> <br><br><br><br><br><br><br>";
+                echo "<p class=' w3-text-green'>Droped successfully ...... :)</p> <br><br>";
             } else {
-                echo "<p class=' w3-text-red'><b>Erorrs : </b> " . $conn->error . "</p><br><br><br><br><br><br>";
+                echo "<p class=' w3-text-red'><b>Erorrs : </b> " . $conn->error . "</p><br><br>";
             }
 
 
@@ -40,9 +40,9 @@ switch ($first)
 
 
             if ($conn->query($sql) === TRUE) {
-                echo "<p class=' w3-text-green'>Altered successfully ...... :)</p><br><br><br><br><br><br>";
+                echo "<p class=' w3-text-green'>Altered successfully ...... :)</p><br><br>";
             } else {
-                echo "<p class=' w3-text-red'><b>Erorrs : </b> " . $conn->error. "</p><br><br><br><br><br><br>";
+                echo "<p class=' w3-text-red'><b>Erorrs : </b> " . $conn->error. "</p><br><br>";
             }
 
 
@@ -52,9 +52,9 @@ switch ($first)
 
 
             if ($conn->query($sql) === TRUE) {
-                echo "<p class=' w3-text-green'>Truncate successfully ...... :)</p> <br><br><br><br><br><br>";
+                echo "<p class=' w3-text-green'>Truncate successfully ...... :)</p> <br><br>";
             } else {
-                echo "<p class=' w3-text-red'><b>Erorrs : </b> " . $conn->error. "</p><br><br><br><br><br><br>";
+                echo "<p class=' w3-text-red'><b>Erorrs : </b> " . $conn->error. "</p><br><br>";
             }
 
 
@@ -101,9 +101,9 @@ switch ($first)
 
 
             if ($conn->query($sql) === TRUE) {
-                echo "<p class=' w3-text-green'>New record inserted successfully ...... :)</p> <br><br><br><br><br><br>";
+                echo "<p class=' w3-text-green'>New record inserted successfully ...... :)</p> <br><br>";
             } else {
-                echo "<p class=' w3-text-red'><b>Erorrs : </b> " . $conn->error. "</p><br><br><br><br><br><br>";
+                echo "<p class=' w3-text-red'><b>Erorrs : </b> " . $conn->error. "</p><br><br>";
             }
 
 
@@ -114,9 +114,9 @@ switch ($first)
 
 
             if ($conn->query($sql) === TRUE) {
-                echo "<p class=' w3-text-green'>Deletion successful ...... :)</p> <br><br><br><br><br><br>";
+                echo "<p class=' w3-text-green'>Deletion successful ...... :)</p> <br><br>";
             } else {
-                echo "<p class=' w3-text-red'><b>Erorrs : </b> " . $conn->error. "</p><br><br><br><br><br><br>";
+                echo "<p class=' w3-text-red'><b>Erorrs : </b> " . $conn->error. "</p><br><br>";
             }
 
 
@@ -127,9 +127,9 @@ switch ($first)
 
 
             if ($conn->query($sql) === TRUE) {
-                echo "<p class=' w3-text-green'>Updated successfully ...... :)</p> <br><br><br><br><br><br>";
+                echo "<p class=' w3-text-green'>Updated successfully ...... :)</p> <br><br>";
             } else {
-                echo "<p class=' w3-text-red'><b>Erorrs : </b> " . $conn->error. "</p><br><br><br><br><br><br>";
+                echo "<p class=' w3-text-red'><b>Erorrs : </b> " . $conn->error. "</p><br><br>";
             }
 
 
@@ -139,9 +139,9 @@ switch ($first)
 
 
             if ($conn->query($sql) === TRUE) {
-                echo "<p class=' w3-text-green'>Renamed successfully ...... :)</p> <br><br><br><br><br><br>";
+                echo "<p class=' w3-text-green'>Renamed successfully ...... :)</p> <br><br>";
             } else {
-                echo "<p class=' w3-text-red'><b>Erorrs : </b> " . $conn->error. "</p><br><br><br><br><br><br>";
+                echo "<p class=' w3-text-red'><b>Erorrs : </b> " . $conn->error. "</p><br><br>";
             }
 
 
@@ -149,7 +149,7 @@ switch ($first)
         break;
 
     default:
-        echo "<p class=' w3-text-red'>Invalid Query ...... :( </p><br><br><br><br><br><br>";
+        echo "<p class=' w3-text-red'>Invalid Query ...... :( </p><br><br>";
 }
 
 ?>

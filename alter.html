@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
-<body onload="GetDbDropdownList();">
+<body onload="GetTbList(); getNO();">
 <style>
 /* The Modal (background) */
 .modal {
@@ -84,9 +84,15 @@
             }
         }
 
-		function GetDbDropdownList()
+
+
+        function GetTbList()
         {
-            var tago="DbDropdownList";
+            var selectobject=document.getElementById("tbDropDown");
+            for (var i = selectobject.length - 1; i >= 1; i--){
+                selectobject.options[i] = null;
+            }
+            var tago="TbList";
             var dataString = 'tag='+ tago;
             $.ajax({
                 type: "POST",
@@ -95,35 +101,9 @@
                 data: dataString,
                 success: function(result){
                     var countItem = Object.keys(result).length;
-                    for (var i = 0; i < countItem; i++) {
-                        $('#dbnameInput')
-                            .append(
-
-                                '<option value="' + result[i] + '">' + result[i] + '</option>'
-                            );
-                    }
-                }
-            });
-        }
-
-        function GetTbDropdownList(tdbName)
-        {
-            var selectobject=document.getElementById("TbnameInput");
-            for (var i = selectobject.length - 1; i >= 1; i--){
-                    selectobject.options[i] = null;
-            }
-            var tago="TbDropdownList";
-            var dataString = 'tag='+ tago + '&dbName='+ tdbName;
-            $.ajax({
-                type: "POST",
-                url: "queryExecutor.php",
-                dataType: 'json',
-                data: dataString,
-                success: function(result){
-                    var countItem = Object.keys(result).length;
 
                     for (var i = 0; i < countItem; i++) {
-                        $('#TbnameInput')
+                        $('#tbDropDown')
                             .append(
 
                                 '<option value="' + result[i] + '">' + result[i] + '</option>'
@@ -137,8 +117,8 @@
 
           $("#SUBMIT").click(function(){
             var alertMsg="";
-            dbname = $("#dbnameInput").val();
-            tname = $("#TbnameInput").val();
+
+            tname = $("#tbDropDown").val();
 			var query = "DESCRIBE "+tname+";";
 			var tago="desc";
             var dataString = 'tag='+ tago + '&Query='+ query+'&dbName='+ dbname + '&tName='+ tname;
@@ -316,13 +296,51 @@
 
 		}
 
+    function getNO()
+    {
+      var tago="getNO";
+      var dataString = 'tag='+ tago;
+
+          $.ajax({
+              type: "POST",
+              url: "queryExecutor.php",
+              data: dataString,
+
+              success: function(result){
+
+                  document.getElementById("studentNo").innerHTML=result;
+
+              }
+          });
+    }
+
+    function logout()
+    {
+      var tago = "logout";
+      var dataValues  = 'tag='+tago;
+      $.ajax({
+      type: "POST",
+      url: "queryExecutor.php",
+      data: dataValues,
+      success: function(result){
+        document.getElementById('topheader').innerHTML = "Logout successfull. Redirecting to login page..&nbsp;<i class='fa fa-spinner fa-spin' aria-hidden='true'></i>";
+        setInterval(function(){window.location.replace("login.html")},2000);
+      }
+      });
+    }
 
 
   </script>
 
 <!-- side navigation bar start -->
-    <nav class="w3-sidenav w3-signal-red" style="width:160px;">
-	<br>
+    <nav class="w3-sidenav w3-signal-red w3-card-8" style="width:190px;">
+      <br>
+      <br>
+      <div class="w3-container w3-center ">
+        <i class="fa fa-user-circle w3-jumbo "></i>
+        <p id = "studentNo"></p>
+        <hr>
+      </div>
     <a href="index.html"><i class="fa fa-home"></i> HOME</a>
      <div class="w3-accordion">
       <a onclick="DropdownFunc(ddl)" href="#">
@@ -372,17 +390,18 @@
 
         </div>
         <a href="master_box.html"><i class="fa fa-edit"></i> DevEngine</a>
-      
+
         <a href="#"><i class="fa fa-puzzle-piece"></i> Reference</a>
         <a href="#"><i class="fa fa-globe"></i> HELP</a>
   </nav>
 <!-- side navigation bar end -->
 
 
-  <div class="w3-main" style="margin-left:160px">
+  <div class="w3-main" style="margin-left:190px">
     <!-- Logo and all start -->
     <header class="w3-container w3-light-grey w3-border-bottom">
-		<h3 id="topheader"><img src="images/logo.png" height="40px"> <button class="w3-btn w3-round-xlarge w3-signal-red w3-right w3-medium" onclick="logout();" >Logout</button></h3>
+		<h3 id="topheader"><img src="images/logo.png" height="40px">
+      <button class="w3-button w3-round-xxlarge  w3-right w3-large" onclick="logout();" >Logout <i class="fa fa-power-off"></i></button></h3>
     </header>
     <!-- Logo and all end -->
 
@@ -435,21 +454,15 @@
 				<!-- code for selecting database and displaying table structure  start-->
 
 				<div class="w3-container w3-border-left w3-border-right w3-border-top ">
-                        <p><label class="w3-label w3-text-blue">Select Database & Table <span class="w3-text-red">*</span>:</label>
-
-                                <select id = "dbnameInput" name="DDD"  onclick="GetTbDropdownList(this.value);">
-                                    <option value = 0>Select Database</option>
-                                </select>
+                        <div><p><label class="w3-label w3-text-blue">Select Table<span class="w3-text-red">*</span>:</label>
 
 
+                                    <select id = "tbDropDown" name="TDD">
+                                        <option value = 0>Select Table</option>
+                                    </select></p>
 
-                            <!--<span id = "TbnameInput">-->
-                                <select id = "TbnameInput" name="TDD">
-                                    <option value = 0>Select Table</option>
-                                </select>
-                            </span>
+                        </div>
 
-                        </p>
 						<p class="w3-right">
 							<button id="SUBMIT" class="w3-btn w3-signal-red w3-round-xlarge">SUBMIT</button>
 						</p>

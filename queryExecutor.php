@@ -127,13 +127,8 @@ case "SelectExecution":
     $conn->close();
   break;
 
-  case "DbDropdownList":
 
-        echo $_SESSION["roll_no"];
-
-        break;
-
-    case "TbDropdownList":
+    case "TbList":
 
         $list = array();
         $DBName = $_SESSION["roll_no"];
@@ -258,7 +253,7 @@ case "SelectExecution":
                 $result->data_seek($i);
                 $finfo = $result->fetch_field_direct(1);
                 $row = $result->fetch_array(MYSQL_NUM);
-                $list[$i] = $row[0]. "  [" .$finfo->type. "]";
+                $list[$i] = $row[0];
             }
             echo json_encode($list);
 
@@ -500,8 +495,8 @@ case "deleteselectall":
         break;
 
     case "getviewslist":
-
-        $query=$_POST['Query'];
+            $DBName = $_SESSION["roll_no"];
+            $query="SHOW FULL TABLES IN $DBName WHERE TABLE_TYPE LIKE 'VIEW'";
 
             $result = $conn->query($query);
             $rowCount = $result->num_rows;
@@ -524,6 +519,24 @@ case "deleteselectall":
 		unset($_SESSION['roll_no']);
 		session_destroy();
 		break;
+
+  case "getNO":
+
+      $id = $_SESSION['roll_no'];
+      $con2=mysqli_connect("localhost","root","","dmine") or die ('I cannot connect to the database because: ' . mysql_error());
+      $sql = "SELECT name, roll_no FROM students WHERE roll_no = '$id' ";
+      $result = $con2->query($sql);
+
+      if ($result->num_rows > 0) {
+          // output data of each row
+          $row = $result->fetch_array(MYSQLI_ASSOC);
+              echo $row["roll_no"]." ";
+
+      } else {
+          echo "";
+      }
+      $con2->close();
+      break;
 
     default:
         echo "Nothing to show";
