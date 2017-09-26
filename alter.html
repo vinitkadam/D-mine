@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
-<body onload="GetTbList(); getNO();">
+
 <style>
 /* The Modal (background) */
 .modal {
@@ -121,8 +121,8 @@
             tname = $("#tbDropDown").val();
 			var query = "DESCRIBE "+tname+";";
 			var tago="desc";
-            var dataString = 'tag='+ tago + '&Query='+ query+'&dbName='+ dbname + '&tName='+ tname;
-            if(dbname=='' || tname=='')
+            var dataString = 'tag='+ tago + '&Query=' + query + '&tName='+ tname;
+            if(tname==0)
             {
                 alertMsg="Please Fill All Field";
                 $("#alertBoxMain").show();
@@ -174,7 +174,7 @@
                   }
                   var query = "ALTER TABLE "+ tname +" ADD " + values + ";";
 				  var tb_tag = "addColumn";
-                  var dataValues = 'tag='+ tb_tag + '&Query='+ query + '&dbName='+ dbname;
+                  var dataValues = 'tag='+ tb_tag + '&Query='+ query;
 
                   $.ajax({
                   type: "POST",
@@ -202,7 +202,7 @@
         	var dtype = $("#dtype").val();
         	var query = "ALTER TABLE "+ tname +" Change " + oldname + "  "+newname+" "+dtype+";";
         	var tb_tag = "modifyColumn";
-			var dataValues = 'tag='+ tb_tag + '&Query='+ query + '&dbName='+ dbname;
+			var dataValues = 'tag='+ tb_tag + '&Query='+ query;
 			if (oldname=="" || newname=="" || dtype=="")
 			{
                 alertMsg="Please Fill All Field";
@@ -230,9 +230,10 @@
 
         function RenameTable(){
         	var newname = $("#ntname").val();
+			newname = newname.trim();
         	var query ="RENAME TABLE "+tname+" TO "+ newname+";";
         	var tb_tag="renameTable";
-        	var dataValues = "tag="+tb_tag+"&Query="+query+"&dbName=" + dbname;
+        	var dataValues = "tag="+tb_tag+"&Query="+query;
         	if(ntname=="")
         	{
         		alertMsg="Please Fill All Field";
@@ -253,9 +254,8 @@
 
         				document.getElementById("cmdWindow").innerHTML=query;
 
-						$("#dbnameInput").click();
-
-						setInterval(function(){ document.getElementById('TbnameInput').value=newname; tname=newname;}, 1000);
+						GetTbList();
+						setTimeout(function(){document.getElementById('tbDropDown').value=newname; tname=newname;}, 1000);
 
         			}
         		})
@@ -268,7 +268,7 @@
 
         		var query= "ALTER TABLE "+tname+" DROP COLUMN "+ cname;
         		var tb_tag = "dropColumn"
-        		var dataValues = "tag="+tb_tag+"&Query="+query+"&dbName="+dbname;
+        		var dataValues = "tag="+tb_tag+"&Query="+query;
         		$.ajax({
         			type: "POST",
         			url: "queryExecutor.php",
@@ -324,14 +324,14 @@
       data: dataValues,
       success: function(result){
         document.getElementById('topheader').innerHTML = "Logout successfull. Redirecting to login page..&nbsp;<i class='fa fa-spinner fa-spin' aria-hidden='true'></i>";
-        setInterval(function(){window.location.replace("login.html")},2000);
+        setTimeout(function(){window.location.replace("login.html")},2000);
       }
       });
     }
 
 
   </script>
-
+<body onload="GetTbList(); getNO();">
 <!-- side navigation bar start -->
     <nav class="w3-sidenav w3-signal-red w3-card-8" style="width:190px;">
       <br>

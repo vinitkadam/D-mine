@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
-<body onload="GetDbDropdownList(); getNO();">
+<body onload="GetTbList(); getNO();">
 
   <script>
 	function DropdownFunc(x) {
@@ -44,9 +44,13 @@
 
         }
 
-		function GetDbDropdownList()
+		function GetTbList()
         {
-            var tago="DbDropdownList";
+            var selectobject=document.getElementById("tbDropDown");
+            for (var i = selectobject.length - 1; i >= 1; i--){
+                selectobject.options[i] = null;
+            }
+            var tago="TbList";
             var dataString = 'tag='+ tago;
             $.ajax({
                 type: "POST",
@@ -55,35 +59,9 @@
                 data: dataString,
                 success: function(result){
                     var countItem = Object.keys(result).length;
-                    for (var i = 0; i < countItem; i++) {
-                        $('#dbnameInput')
-                            .append(
-
-                                '<option value="' + result[i] + '">' + result[i] + '</option>'
-                            );
-                    }
-                }
-            });
-        }
-
-        function GetTbDropdownList(tdbName)
-        {
-            var selectobject=document.getElementById("TbnameInput");
-            for (var i = selectobject.length - 1; i >= 1; i--){
-                    selectobject.options[i] = null;
-            }
-            var tago="TbDropdownList";
-            var dataString = 'tag='+ tago + '&dbName='+ tdbName;
-            $.ajax({
-                type: "POST",
-                url: "queryExecutor.php",
-                dataType: 'json',
-                data: dataString,
-                success: function(result){
-                    var countItem = Object.keys(result).length;
 
                     for (var i = 0; i < countItem; i++) {
-                        $('#TbnameInput')
+                        $('#tbDropDown')
                             .append(
 
                                 '<option value="' + result[i] + '">' + result[i] + '</option>'
@@ -97,12 +75,11 @@
 
           $("#SUBMIT").click(function(){
             var alertMsg="";
-            dbname = $("#dbnameInput").val();
-            tname = $("#TbnameInput").val();
+            tname = $("#tbDropDown").val();
 			var query = "SELECT * FROM "+tname+";";
 			var tago="deleteselectall";
-            var dataString = 'tag='+ tago + '&Query='+ query+'&dbName='+ dbname + '&tName='+ tname;
-            if(dbname=='' || tname=='')
+            var dataString = 'tag='+ tago + '&Query='+ query+'&tName='+ tname;
+            if(tname==0)
             {
                 alertMsg="Please Fill All Field";
                 $("#alertBoxMain").show();
@@ -127,7 +104,7 @@
 	  {
 		var query = "Delete from "+tname+" where "+pkeyname+" = "+pkeyval;
 		var tago = "delete";
-		var dataString = 'tag='+ tago + '&Query='+ query+'&dbName='+ dbname + '&tName='+ tname+'&pkeyname='+pkeyname+'&pkeyval='+pkeyval;
+		var dataString = 'tag='+ tago + '&Query='+ query+'&dbName='+ tname+'&pkeyname='+pkeyname+'&pkeyval='+pkeyval;
 		$.ajax({
 				type: "POST",
 				url: "queryExecutor.php",
@@ -287,18 +264,10 @@
 
                 <div class="w3-container w3-border-left w3-border-right w3-border-top ">
                         <p><label class="w3-label w3-text-blue">Select Database & Table <span class="w3-text-red">*</span>:</label>
-
-                                <select id = "dbnameInput" name="DDD"  onclick="GetTbDropdownList(this.value);">
-                                    <option value = 0>Select Database</option>
-                                </select>
-
-
-
-                            <!--<span id = "TbnameInput">-->
-                                <select id = "TbnameInput" name="TDD">
+                                
+								<select id = "tbDropDown" name="TDD">
                                     <option value = 0>Select Table</option>
-                                </select>
-                            </span>
+                                </select></p>
 
                         </p>
 <hr>
