@@ -219,7 +219,7 @@ case "SelectExecution":
                 echo "Table renamed successfully";
             }
             else{
-                echo "error occured while renaming table. Try again..";
+                echo "error occured while renaming table. Try again..".$conn->error;
             }
 
 
@@ -311,12 +311,11 @@ case "selectall":
 
 	break;
 case "updateselectall":
-
 	$query_Stat=$_POST['Query'];
 	$tablename=$_POST['tName'];
 
 		$result=mysqli_query($conn,$query_Stat);
-		$primarykey = mysqli_query($conn,"SHOW KEYS FROM $tablename WHERE Key_name = 'PRIMARY'");
+		$primarykey = mysqli_query($conn,"SHOW index FROM $tablename WHERE Key_name = 'PRIMARY'");
 		$primarykeydata = mysqli_fetch_row($primarykey);
 		$primarykeyname = $primarykeydata[4];
 
@@ -347,6 +346,7 @@ case "updateselectall":
 
 	break;
 
+	
 case "updatemodal":
 
 	$query_Stat=$_POST['Query'];
@@ -406,7 +406,7 @@ case "deleteselectall":
 	$tablename=$_POST['tName'];
 
 		$result=mysqli_query($conn,$query_Stat);
-		$primarykey = mysqli_query($conn,"SHOW KEYS FROM $tablename WHERE Key_name = 'PRIMARY'");
+		$primarykey = mysqli_query($conn,"SHOW index FROM $tablename WHERE Key_name = 'PRIMARY'");
 		$primarykeydata = mysqli_fetch_row($primarykey);
 		$primarykeyname = $primarykeydata[4];
 

@@ -49,22 +49,35 @@
 
 		var tago = "register";
 		var dataValues = 'tag='+ tago + '&roll_no='+ roll_no +'&name='+ name + '&password='+ password + '&cpassword='+ cpassword + '&email=' + email + '&division='+ division + '&batch=' + 	batch;
-		$.ajax({
-			type: "POST",
-			url: "registerExe.php",
-			data: dataValues,
-			success: function(data){
-				data = JSON.parse(data);
-				if(data['registration_success']) {
-					$("#alertBoxMain").show();
-					document.getElementById("alertBox").innerHTML="Registraion Successfull. Now login using you Roll number and password &nbsp;<i class='fa fa-spinner fa-spin' aria-hidden='true'></i>";
-					setTimeout(function(){window.location.href='login.html'},3000);
-				} else {
-					$("#alertBoxMain").show();
-					document.getElementById("alertBox").innerHTML=data['registration_error'];
-				}
+		if(roll_no == "" || name == "" || password == "" || cpassword == "" || email == "" || division == "" || batch == "")
+		{
+			$("#alertBoxMain").show();
+			document.getElementById("alertBox").innerHTML="Please fill all the fields.";
+		} else {
+			if(password == cpassword)
+			{
+				$.ajax({
+					type: "POST",
+					url: "registerExe.php",
+					data: dataValues,
+					success: function(data){
+						data = JSON.parse(data);
+						if(data['registration_success']) {
+							$("#alertBoxMain").show();
+							document.getElementById("alertBox").innerHTML="Registraion Successfull. Now login using you Roll number and password &nbsp;<i class='fa fa-spinner fa-spin' aria-hidden='true'></i>";
+							setTimeout(function(){window.location.href='login.html'},3000);
+						} else {
+							$("#alertBoxMain").show();
+							document.getElementById("alertBox").innerHTML=data['registration_error'];
+						}
+					}
+				});
 			}
-		});
+			else{
+				$("#alertBoxMain").show();
+				document.getElementById("alertBox").innerHTML="passwords did not match.";
+			}
+		}
 	}
 </script>
 </head>

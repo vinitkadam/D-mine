@@ -17,22 +17,28 @@
 		var pass = $("#password").val();
 		var tago = "login";
 		var dataValues = 'tag='+ tago + '&roll_no='+ roll_no+'&password='+pass;
-		$.ajax({
-			type: "POST",
-			url: "loginExe.php",
-			data: dataValues,
-			success: function(data){
-				data = JSON.parse(data);
-				if(data['login_status']) {
-					$("#alertBoxMain").show();
-					document.getElementById("alertBox").innerHTML="Login Successfull. Redirecting to Homepage... &nbsp;<i class='fa fa-spinner fa-spin' aria-hidden='true'></i>";
-					setTimeout(function(){window.location.href='index.html'},2000);
-				} else {
-					$("#alertBoxMain").show();
-					document.getElementById("alertBox").innerHTML="Invalid User Credentials. No such user exists.";
+		if(roll_no == "" || pass == "")
+		{
+			$("#alertBoxMain").show();
+			document.getElementById("alertBox").innerHTML="Please fill all the fields.";
+		} else {
+			$.ajax({
+				type: "POST",
+				url: "loginExe.php",
+				data: dataValues,
+				success: function(data){
+					data = JSON.parse(data);
+					if(data['login_status']) {
+						$("#alertBoxMain").show();
+						document.getElementById("alertBox").innerHTML="Login Successfull. Redirecting to Homepage... &nbsp;<i class='fa fa-spinner fa-spin' aria-hidden='true'></i>";
+						setTimeout(function(){window.location.href='index.html'},2000);
+					} else {
+						$("#alertBoxMain").show();
+						document.getElementById("alertBox").innerHTML="Invalid User Credentials. No such user exists.";
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 
 	</script>
