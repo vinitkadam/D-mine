@@ -148,16 +148,44 @@
 		function ColGenerator()
         {
 			var divClone = $("#AC").clone();
-			$("#addtable").hide();
+//			$("#addtable").hide();
             $("#autoCOL").show();
             var i;
             var rNo = parseInt($("#NoOfColInput").val());
             for (i = 0; i < rNo; i++) {
               $('#autoCOL')
                .append('<tr><td><input id="name' + i + '" type="text" class="input" /></td>' +
-                   '<td><input id="type' + i + '" type="text" class="input" /></td>' +
-                   '<td><input id="length' + i + '" type="text" class="input" /></td>' +
-                   '</tr>');
+
+                      '<td>'
+                      +
+                          '<select id="type' + i + '" >' +
+                        '<optgroup label="Numeric">'+
+                        '<option value="int"> INT </option>' +
+                       '<option value="float"> FLOAT </option>' +
+                       '<option value="double"> DOUBLE </option>' +
+                       '</optgroup>'+
+                       '<optgroup label="Date and time">'+
+                       '<option value="date"> DATE </option>' +
+                      '<option value="time"> TIME </option>' +
+                      '<option value="year"> YEAR </option>' +
+                       '</optgroup>'+
+                     '<optgroup label="String">'+
+                      '<option value="varchar"> VARCHAR </option>' +                     
+                      '<option value="char"> CHAR </option>' +
+                        '<option value="text"> TEXT </option>' +
+                      
+                       '</optgroup>'+
+                       
+                       
+                      '<select>'
+                      +
+                      '</td>'+
+
+                      '<td><input id="length' + i + '" type="text" class="input" /></td>' +
+                      '<td><input  class="w3-check" id=" primary key" type="checkbox"  /><label> PRIMARY KEY  &nbsp&nbsp </label>' +
+                      '<input  class="w3-check" id=" AUTO_INCREMENT" type="checkbox"  /><label> AUTO INCREMENT  &nbsp&nbsp </label>' +
+                      '<input  class="w3-check" id=" NOT NULL" type="checkbox"  /><label> NOT NULL</label></td>' +
+                      '</tr>');
             }
             $("#addcolpara").show();
 
