@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>RAIT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/w3.css">
+<link rel="stylesheet" href="css/w3-colors-signal.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+
+<style>
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+</style>
+
+  <script>
+	function DropdownFunc(x) {
+        if (x.className.indexOf("w3-show") == -1) {
+          x.className += " w3-show";
+          x.previousElementSibling.className += "w3-signal-red";
+        } else {
+          x.className = x.className.replace(" w3-show", "");
+          x.previousElementSibling.className =
+          x.previousElementSibling.className.replace("w3-signal-red", "");
+        }
+      }
+
+    function showANDhideBox(x){
+
+        if (x.style.display === 'none') {
+            x.style.display = 'block';
+        } else {
+            x.style.display = 'none';
+        }
+
+    }
+
+      function accordion(id) {
+            var x = document.getElementById(id);
+            if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+                x.previousElementSibling.className += " w3-light-grey";
+            } else {
+                x.className = x.className.replace(" w3-show", "");
+                x.previousElementSibling.className =
+                x.previousElementSibling.className.replace(" w3-light-grey", "");
+            }
+        }
+
+
+
+        function GetTbList()
+        {
+            var selectobject=document.getElementById("tbDropDown");
+            for (var i = selectobject.length - 1; i >= 1; i--){
+                selectobject.options[i] = null;
+            }
+            var tago="TbList";
+            var dataString = 'tag='+ tago;
+            $.ajax({
+                type: "POST",
+                url: "queryExecutor.php",
+                dataType: 'json',
+                data: dataString,
+                success: function(result){
+                    var countItem = Object.keys(result).length;
+
+                    for (var i = 0; i < countItem; i++) {
+                        $('#tbDropDown')
+                            .append(
+
+                                '<option value="' + result[i] + '">' + result[i] + '</option>'
+                            );
+                    }
+                }
+            });
+        }
+
+	$(document).ready(function(){
+
+          $("#SUBMIT").click(function(){
+            var alertMsg="";
+
+            tname = $("#tbDropDown").val();
+			var query = "DESCRIBE "+tname+";";
+			var tago="desc";
+            var dataString = 'tag='+ tago + '&Query=' + query + '&tName='+ tname;
+            if(tname==0)
+            {
+                alertMsg="Please Fill All Field";
+                $("#alertBoxMain").show();
+                document.getElementById("alertBox").innerHTML=alertMsg;
+            }
+            else
+            {
+                  $.ajax({
+                  type: "POST",
+                  url: "queryExecutor.php",
+                  data: dataString,
+                  cache: false,
+                  success: function(result){
+					$("#tstructure").html(result);
+                    $("#altercmds").show();
+                  }
+                  });
+            }
+        });
+      });
+
+
+		function ColGenerator()
+        {
+			var divClone = $("#AC").clone();
+			$("#addtable").hide();
+            $("#autoCOL").show();
+            var i;
+            var rNo = parseInt($("#NoOfColInput").val());
+            for (i = 0; i < rNo; i++) {
+              $('#autoCOL')
+               .append('<tr><td><input id="name' + i + '" type="text" class="input" /></td>' +
+                   '<td><input id="type' + i + '" type="text" class="input" /></td>' +
+                   '<td><input id="length' + i + '" type="text" class="input" /></td>' +
+                   '</tr>');
+            }
+            $("#addcolpara").show();
+
+            //when create button is clicked this logic send data and recieve result from queryExecutor
+            $("#addColumn").click(function(){
+                  var values="";
+                  i=0;
+                  while (i!=rNo) {
+                    if(i==0)
+                      values +=  $('#name' + i).val() + ' ' + $('#type' + i).val() + '(' + $('#length' + i).val() +')'+' after '+$('#after').val() ;
+                    else
+                      values += ', ADD '+ $('#name' + i).val() + ' ' + $('#type' + i).val() + '(' + $('#length' + i).val() +') after '+$('#name'+(i-1)).val() ;
+                    i++;
+                  }
+                  var query = "ALTER TABLE "+ tname +" ADD " + values + ";";
+				  var tb_tag = "addColumn";
+                  var dataValues = 'tag='+ tb_tag + '&Query='+ query;
+
+                  $.ajax({
+                  type: "POST",
+                  url: "queryExecutor.php",
+                  data: dataValues,
+                  success: function(result){
+                      alertMsg=result;
+                      $("#alertBoxMain").show();
+						$("#AC").replaceWith(divClone.clone());
+
+                      document.getElementById("alertBox").innerHTML=alertMsg;
+                      document.getElementById("cmdWindow").innerHTML=query;
+                      $("#SUBMIT").click();
+
+					}
+                  });
+
+            });
+        }
+
+        function modify()
+        {
+        	var oldname = $("#oldname").val();
+        	var newname = $("#newname").val();
+        	var dtype = $("#dtype").val();
+        	var query = "ALTER TABLE "+ tname +" Change " + oldname + "  "+newname+" "+dtype+";";
+        	var tb_tag = "modifyColumn";
+			var dataValues = 'tag='+ tb_tag + '&Query='+ query;
+			if (oldname=="" || newname=="" || dtype=="")
+			{
+                alertMsg="Please Fill All Field";
+                $("#alertBoxMain").show();
+                document.getElementById("alertBox").innerHTML=alertMsg;
+            }
+            else
+            {
+			$.ajax({
+			type: "POST",
+			url: "queryExecutor.php",
+			data: dataValues,
+			success: function(result){
+			    alertMsg=result;
+				document.getElementById('id01').style.display='none';
+			    $("#alertBoxMain").show();
+			    document.getElementById("alertBox").innerHTML=alertMsg;
+			    document.getElementById("cmdWindow").innerHTML=query;
+			    $("#SUBMIT").click();
+				}
+			});
+
+			}
+        }
+
+        function RenameTable(){
+        	var newname = $("#ntname").val();
+			newname = newname.trim();
+        	var query ="RENAME TABLE "+tname+" TO "+ newname+";";
+        	var tb_tag="renameTable";
+        	var dataValues = "tag="+tb_tag+"&Query="+query;
+        	if(ntname=="")
+        	{
+        		alertMsg="Please Fill All Field";
+        		$("alertBoxMain").show();
+        		document.getElementById("alertMsg").innerHTML=alertMsg;
+        	}
+        	else
+        	{
+        		$.ajax({
+        			type: "POST",
+        			url: "queryExecutor.php",
+        			data: dataValues,
+        			success: function(result){
+        				alertMsg=result;
+        				$("#alertBoxMain").show();
+
+        				document.getElementById("alertBox").innerHTML=alertMsg;
+
+        				document.getElementById("cmdWindow").innerHTML=query;
+
+						GetTbList();
+						setTimeout(function(){document.getElementById('tbDropDown').value=newname; tname=newname;}, 1000);
+
+        			}
+        		})
+        	}
+        }
+
+        function remove(colname){
+        	var cname = colname;
+
+
+        		var query= "ALTER TABLE "+tname+" DROP COLUMN "+ cname;
+        		var tb_tag = "dropColumn"
+        		var dataValues = "tag="+tb_tag+"&Query="+query;
+        		$.ajax({
+        			type: "POST",
+        			url: "queryExecutor.php",
+        			data: dataValues,
+        			success: function(result){
+        				alertMsg=result;
+        				$("#alertBoxMain").show();
+
+        				document.getElementById("alertBox").innerHTML=alertMsg;
+
+        				document.getElementById("cmdWindow").innerHTML=query;
+
+        				$("#SUBMIT").click();
+        			}
+        		})
+
+        }
+
+		function alter(field,type)
+		{
+			document.getElementById('id01').style.display='block';
+			document.getElementById('newname').value=field;
+			document.getElementById('dtype').value=type;
+			document.getElementById('oldname').value=field;
+
+		}
+
+    function getNO()
+    {
+      var tago="getNO";
+      var dataString = 'tag='+ tago;
+
+          $.ajax({
+              type: "POST",
+              url: "queryExecutor.php",
+              data: dataString,
+
+              success: function(result){
+
+                  document.getElementById("studentNo").innerHTML=result;
+
+              }
+          });
+    }
+
+    function logout()
+    {
+      var tago = "logout";
+      var dataValues  = 'tag='+tago;
+      $.ajax({
+      type: "POST",
+      url: "queryExecutor.php",
+      data: dataValues,
+      success: function(result){
+        document.getElementById('topheader').innerHTML = "Logout successfull. Redirecting to login page..&nbsp;<i class='fa fa-spinner fa-spin' aria-hidden='true'></i>";
+        setTimeout(function(){window.location.replace("login.html")},2000);
+      }
+      });
+    }
+
+
+  </script>
+<body onload="GetTbList(); getNO();">
+<!-- side navigation bar start -->
+    <nav class="w3-sidenav w3-signal-red w3-card-8" style="width:190px;">
+      <br>
+      <br>
+      <div class="w3-container w3-center ">
+        <i class="fa fa-user-circle w3-jumbo "></i>
+        <p id = "studentNo"></p>
+        <hr>
+      </div>
+    <a href="index.html"><i class="fa fa-home"></i> HOME</a>
+     <div class="w3-accordion">
+      <a onclick="DropdownFunc(ddl)" href="#">
+      <i class="fa fa-plus-square-o"></i> DDL Engine <i class="fa fa-caret-down"></i>
+      </a>
+
+      <div id="ddl" class="w3-accordion-content w3-white">
+	     <!--DDL-CREATE-->
+         <div class="w3-accordion">
+            <a href="create_table.html"><i class="fa fa-angle-right"></i> Create Table</a>
+		     </div>
+		<!--DDL-ALTER-->
+		    <div class="w3-accordion">
+                <a  href="alter.html">
+                    <i class="fa fa-angle-right"></i> Alter Table
+                </a>
+		     </div>
+          <!--DDL-Drop-->
+          <a href="drop.html"> <i class="fa fa-angle-right"></i> Drop Table</a>
+          <!--DDL-Truncate-->
+          <a href="truncate.html"><i class="fa fa-angle-right"></i> Truncate Table</a>
+       </div>
+     </div>
+
+        <div class="w3-accordion">
+            <a onclick="DropdownFunc(dml)" href="#">
+                <i class="fa fa-plus-square-o"></i> DML Engine <i class="fa fa-caret-down"></i>
+            </a>
+            <div id="dml" class="w3-accordion-content w3-white">
+                <a href="select.html"><i class="fa fa-angle-right"></i> Select</a>
+                <a href="insert.html"><i class="fa fa-angle-right"></i> Insert</a>
+                <a href="update.html"><i class="fa fa-angle-right"></i> Update</a>
+                <a href="delete.html"><i class="fa fa-angle-right"></i> Delete</a>
+            </div>
+        </div>
+
+        <div class="w3-accordion">
+
+            <a onclick="DropdownFunc(alter_view)" href="#">
+                <i class="fa fa-plus-square-o"></i> View <i class="fa fa-caret-down"></i>
+            </a>
+            <div id="alter_view" class="w3-accordion-content w3-white"   >
+                <a href="create_view.html"><i class="fa fa-angle-right"></i> Create View</a>
+                <a href="drop_view.html"><i class="fa fa-angle-right"></i> Drop View</a>
+                <a href="rename_view.html"><i class="fa fa-angle-right"></i> Rename View</a>
+            </div>
+
+        </div>
+        <a href="master_box.html"><i class="fa fa-edit"></i> DevEngine</a>
+
+        <a href="#"><i class="fa fa-puzzle-piece"></i> Reference</a>
+        <a href="#"><i class="fa fa-globe"></i> HELP</a>
+  </nav>
+<!-- side navigation bar end -->
+
+
+  <div class="w3-main" style="margin-left:190px">
+    <!-- Logo and all start -->
+    <header class="w3-container w3-light-grey w3-border-bottom">
+		<h3 id="topheader"><img src="images/logo.png" height="40px">
+      <button class="w3-button w3-round-xxlarge  w3-right w3-large" onclick="logout();" >Logout <i class="fa fa-power-off"></i></button></h3>
+    </header>
+    <!-- Logo and all end -->
+
+    <div id="mainWindow">
+
+	<!-- modal-->
+	<div id="id01" class="w3-modal">
+        <div class="w3-modal-content">
+            <div class="w3-container">
+				<span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+				<div id="DSHOW" class="w3-container w3-padding">
+				<input class="w3-hide" id='oldname'>
+				<table class="w3-table">
+					<tr>
+
+						<td><label>Field</label><input class="w3-input w3-border" id="newname" /></td>
+						<td><label>type</label><input class="w3-input w3-border" id="dtype" /></td>
+					</tr>
+				</table>
+				<p class="w3-right"><button class="w3-btn w3-round-xlarge w3-blue-grey" onclick="modify();">GO</button></p>
+				</div>
+
+            </div>
+        </div>
+    </div>
+
+      <div class="w3-layout-container">
+        <!-- Query view section start-->
+        <div class="w3-layout-container">
+            <div class="w3-container w3-layout-col w3-bottombar w3-leftbar w3-rightbar w3-topbar  w3-border-light-grey" style="width:100%; height: 50px;">
+              <p id="cmdWindow"><span class="w3-text-red">NOTE: First select the Database and Table you want to alter and then proceed </span></p>
+            </div>
+        </div>
+        <!-- Query view section end -->
+
+
+        <div class="w3-layout-container">
+            <!-- Action section start -->
+            <div id="actionWindow" class="w3-container w3-layout-col w3-bottombar w3-leftbar w3-rightbar w3-border-light-grey" style="width:70%; height: 576px;">
+
+
+                  <p><i class="	fa fa-angle-double-right"></i> Alter</p>
+                <!-- Alert Box Section by default its hidden start-->
+                <div id="alertBoxMain" class="w3-panel w3-green" style="display:none">
+                  <span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+                  <p id="alertBox"></p>
+                </div>
+                <!-- Alert Box Section by default its hidden end-->
+
+				<!-- code for selecting database and displaying table structure  start-->
+
+				<div class="w3-container w3-border-left w3-border-right w3-border-top ">
+                        <div><p><label class="w3-label w3-text-blue">Select Table<span class="w3-text-red">*</span>:</label>
+
+
+                                    <select id = "tbDropDown" name="TDD">
+                                        <option value = 0>Select Table</option>
+                                    </select></p>
+
+                        </div>
+
+						<p class="w3-right">
+							<button id="SUBMIT" class="w3-btn w3-signal-red w3-round-xlarge">SUBMIT</button>
+						</p>
+
+                </div>
+                <hr>
+				<!-- code for selecting database and retrieving table structure  end-->
+
+
+				<!-- code to alter table  start-->
+				<div class="w3-container w3-border-left w3-border-right w3-border-bottom " id="altercmds" style="display:none">
+
+				<!-- display table structure start -->
+					<div>
+						<table id="tstructure" class="w3-table w3-striped w3-bordered">
+
+						</table>
+
+					</div>
+				<!-- display table structure end -->
+
+                  <button onclick="accordion('AC')" class="w3-btn-block w3-center w3-border w3-light-grey w3-left-align">Add a Column(s) <i class="fa fa-angle-double-down w3-right w3-xlarge"></i></button>
+                  <div id="AC" class="w3-hide w3-container ">
+                      <p>
+					  <table id="addtable">
+							<tr>
+								<td><label class="w3-label w3-text-blue">Number of columns<span class="w3-text-red">*</span>:&nbsp</label></td>
+								<td><input id="NoOfColInput" class="w3-input w3-border" type="text" ></td>&nbsp
+								<td><label class="w3-label w3-text-blue">After<span class="w3-text-red">*</span>:&nbsp</label></td>
+								<td><input id="after" type="text" class="w3-input w3-border"></td>&nbsp
+								<td><button onclick="ColGenerator();">Add</button></td>
+							</tr>
+					  </table>
+					  </p>
+					<p>
+						<table id="autoCOL" class="w3-table-all w3-small" style="display:none">
+							<thead>
+							<tr class="w3-light-grey">
+							<th>Name</th>
+							<th>Type</th>
+							<th>Length</th>
+							</tr>
+							</thead>
+						</table>
+
+					</p>
+
+
+                  </div>
+
+                    <p class="w3-right " id="addcolpara" style="display: none;"><button id="addColumn" class="w3-btn w3-blue-grey w3-right">ADD COLUMN(S)</button></p>
+
+
+                  <button onclick="accordion('RCT')" class="w3-btn-block w3-border w3-center w3-light-grey w3-left-align">Rename the Table<i class="fa fa-angle-double-down w3-right w3-xlarge"></i></button>
+                  <div id="RCT" class="w3-hide w3-container">
+                      <p>
+                      	<label class="w3-text-blue">New Table name:<span class="w3-text-red">*</span></label>
+                      	<input class="w3-input w3-border"type="text" id="ntname">
+                      </p>
+                      <p><button class="w3-btn w3-blue-grey w3-right w3-round-xlarge" id="renametable" onclick="RenameTable();">RENAME TABLE</button></p>
+
+                  </div>
+                    <br>
+                    <br>
+
+				</div>
+				  <!-- code to alter table end -->
+
+            </div>
+            <!-- Action section end -->
+            <!-- flow Chart section start -->
+            <div id="chartWindow" class="w3-container w3-layout-col w3-bottombar w3-rightbar w3-border-light-grey" >
+
+                <p>
+                    <div class="w3-panel w3-pale-green w3-border-left w3-border-green">
+                <p> <div class="w3-tag w3-round w3-green" style="padding:3px" onclick="showANDhideBox(description)">
+                <div class="w3-tag w3-round w3-green w3-border w3-border-white">
+                    Description :
+                </div>
+            </div></p>
+                <p id ="description">The MySQL ALTER TABLE statement is used to add, modify, or drop/delete columns in a table.
+                    The MySQL ALTER TABLE statement is also used to rename a table.</p>
+            </div>
+            </p>
+
+                    <p>
+                        <div class="w3-panel w3-pale-blue w3-border-left w3-border-blue">
+                    <p> <div class="w3-tag w3-round w3-blue" style="padding:3px" onclick="showANDhideBox(syntax)">
+                    <div class="w3-tag w3-round w3-blue w3-border w3-border-white">
+                        Syntax :
+                    </div>
+                </div></p>
+                    <p id="syntax" style="display:none">
+                        <b>Add column in table :</b> <br>
+                        ALTER TABLE table_name
+                        ADD new_column_name column_definition
+                        [ FIRST | AFTER column_name ];
+                        <br><br>
+                        <b>Modify column in table :</b>  <br>
+                        ALTER TABLE table_name
+                        MODIFY column_name column_definition
+                        [ FIRST | AFTER column_name ];
+                        <br><br>
+                        <b>Drop column in table :</b><br>
+                        ALTER TABLE table_name
+                        DROP COLUMN column_name;
+                        <br><br>
+                        <b>Rename column in table :</b><br>
+                        ALTER TABLE table_name
+                        CHANGE COLUMN old_name new_name
+                        column_definition
+                        [ FIRST | AFTER column_name ]
+                        <br><br>
+                        <b>Rename table :</b><br>
+                        ALTER TABLE table_name
+                        RENAME TO new_table_name;
+                       </p>
+                </div>
+                  </p>
+
+                  <p>
+                      <div class="w3-panel w3-pale-red w3-border-left w3-border-red">
+                  <p> <div class="w3-tag w3-round w3-red" style="padding:3px" onclick="showANDhideBox(example)">
+                  <div class="w3-tag w3-round w3-red w3-border w3-border-white">
+                      Example :
+                  </div>
+              </div></p>
+                  <p id="example" style="display:none">
+                      <b>Add column in table :</b> <br>
+                      ALTER TABLE contacts
+                      ADD last_name varchar(40) NOT NULL
+                      AFTER contact_id;
+                      <br><br>
+                      <b>Modify column in table :</b>  <br>
+                      ALTER TABLE contacts
+                      MODIFY last_name varchar(50) NULL;
+                      <br><br>
+                      <b>Drop column in table :</b><br>
+                      ALTER TABLE contacts
+                      DROP COLUMN contact_type;
+                      <br><br>
+                      <b>Rename column in table :</b><br>
+                      ALTER TABLE contacts
+                      CHANGE COLUMN contact_type ctype
+                      varchar(20) NOT NULL;
+                      <br><br>
+                      <b>Rename table :</b><br>
+                      ALTER TABLE contacts
+                      RENAME TO people;
+                  </p>
+              </div>
+                </p>
+
+            </div>
+            <!-- flow Chart section start end -->
+        </div>
+
+    <footer class="w3-container w3-light-grey w3-border-top">
+      <p class=" w3-right">Copyright © 2017 All rights reserved</p>
+    </footer>
+  </div>
+
+
+
+</body>
+</html>
