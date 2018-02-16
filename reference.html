@@ -19,7 +19,9 @@
 		border-right:  1px solid grey;
 		border-bottom:  1px solid grey;
 	    width: auto;
+	    border-radius: 5px;
 	    margin-top: 10px;
+	    margin-bottom: 10px;
 	    background-color: #fff;
 	    font-family: "Lucida Console";
 	    padding: 8px 12px;
@@ -69,12 +71,29 @@
 <body>
 	<script>
 		$(document).ready(function() {
-		  $("input").on("input.highlight", function() {
-		    // Determine specified search term
-		    var searchTerm = $(this).val();
-		    // Highlight search term inside a specific context
-		    $("#context").unmark().mark(searchTerm);
-		  }).trigger("input.highlight").focus();
+
+			var searchTerm, panelContainerId;
+			$.expr[':'].containsCaseInsensitive = function (n, i, m) {
+				return jQuery(n).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+			};
+
+			$("input").on('keyup',function(e){
+				if(e.keyCode == 13){
+					searchTerm = $(this).val();
+					$("#accordion > .panel").each(function(){
+						panelContainerId = '#' + $(this).attr('id');
+					    $(panelContainerId + ':not(:containsCaseInsensitive(' + searchTerm + '))').hide();
+					    $(panelContainerId + ':containsCaseInsensitive(' + searchTerm + ')').show();
+					});
+				    $("#accordion > .panel:visible").each(function(){
+				    	$(this).find("a").click();
+				    	$(this).unmark().mark(searchTerm);
+				    });
+					$('html, body').animate({
+						scrollTop: ($('mark').first().offset().top)
+					},500);
+				}
+			});
 		});
 	</script>
 	<div class = "logoHolder">
@@ -83,14 +102,14 @@
 
 	<div class="mainContent" id="context">
 		<div class="form-group"><center>
-			<input type="text" style="width: 60%;" class="form-control" id="search" placeholder="Enter keywords to search..."></center>
+			<input type="search" style="width: 60%;" class="form-control" id="search" placeholder="Enter keywords to search..."> </center>
 		</div>
 		<center><div style="width: 30%;"><h2>DDL</h2></div></center>
 		<div class="panel-group" id="accordion">
-  			<div class="panel panel-default">
+  			<div class="panel panel-default" id="expandable1">
     			<div class="panel-heading">
       				<h4 class="panel-title">
-        				<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+        				<a data-toggle="collapse" id="ex1" data-parent="#accordion" href="#collapse1">
         					CREATE DATABASE</a>
       				</h4>
     			</div>
@@ -104,7 +123,7 @@
     			</div>
   			</div>
 
-  			<div class="panel panel-default">
+  			<div class="panel panel-default" id="expandable2">
     			<div class="panel-heading">
       				<h4 class="panel-title">
         				<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
@@ -127,10 +146,10 @@
     			</div>
   			</div>
 
-			<div class="panel panel-default">
+			<div class="panel panel-default" id="expandable3">
     			<div class="panel-heading">
       				<h4 class="panel-title">
-        				<a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+        				<a data-toggle="collapse" id="ex3" data-parent="#accordion" href="#collapse3">
         					ALTER TABLE</a>
       				</h4>		
     			</div>
@@ -172,10 +191,10 @@
     			</div>
   			</div>
 
-  			<div class="panel panel-default">
+  			<div class="panel panel-default" id="expandable4">
     			<div class="panel-heading">
       				<h4 class="panel-title">
-        				<a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+        				<a data-toggle="collapse" id="ex4" data-parent="#accordion" href="#collapse4">
         					DROP DATABASE</a>
       				</h4>		
     			</div>
@@ -193,10 +212,10 @@
     			</div>
   			</div>
 
-  			<div class="panel panel-default">
+  			<div class="panel panel-default" id="expandable5">
     			<div class="panel-heading">
       				<h4 class="panel-title">
-        				<a data-toggle="collapse" data-parent="#accordion" href="#collapse5">
+        				<a data-toggle="collapse" id="ex5" data-parent="#accordion" href="#collapse5">
         					DROP TABLE</a>
       				</h4>		
     			</div>
@@ -215,10 +234,10 @@
     			</div>
   			</div>
 
-  			<div class="panel panel-default">
+  			<div class="panel panel-default" id="expandable6">
     			<div class="panel-heading">
       				<h4 class="panel-title">
-        				<a data-toggle="collapse" data-parent="#accordion" href="#collapse6">
+        				<a data-toggle="collapse" id="ex6" data-parent="#accordion" href="#collapse6">
         					TRUNCATE TABLE</a>
       				</h4>		
     			</div>
@@ -238,10 +257,10 @@
 
 			<center><div style="width: 30%;"><h2>DML</h2></div></center>
 
-  			<div class="panel panel-default">
+  			<div class="panel panel-default" id="expandable7">
     			<div class="panel-heading">
       				<h4 class="panel-title">
-        				<a data-toggle="collapse" data-parent="#accordion" href="#collapse7">
+        				<a data-toggle="collapse" id="ex7" data-parent="#accordion" href="#collapse7">
         					INSERT</a>
       				</h4>		
     			</div>
@@ -338,10 +357,10 @@
     			</div>
   			</div>
 
-  			<div class="panel panel-default">
+  			<div class="panel panel-default" id="expandable8">
     			<div class="panel-heading">
       				<h4 class="panel-title">
-        				<a data-toggle="collapse" data-parent="#accordion" href="#collapse8">
+        				<a data-toggle="collapse" id="ex8" data-parent="#accordion" href="#collapse8">
         					UPDATE</a>
       				</h4>		
     			</div>
@@ -364,10 +383,10 @@
     			</div>
   			</div>
 
-  			<div class="panel panel-default">
+  			<div class="panel panel-default" id="expandable9">
     			<div class="panel-heading">
       				<h4 class="panel-title">
-        				<a data-toggle="collapse" data-parent="#accordion" href="#collapse9">
+        				<a data-toggle="collapse" id="ex9" data-parent="#accordion" href="#collapse9">
         					DELETE</a>
       				</h4>		
     			</div>
@@ -386,14 +405,14 @@
     			</div>
   			</div>
 
-  			<div class="panel panel-default">
+  			<div class="panel panel-default" id="expandable10">
     			<div class="panel-heading">
       				<h4 class="panel-title">
-        				<a data-toggle="collapse" data-parent="#accordion" href="#collapse11">
+        				<a data-toggle="collapse" id= "ex10" data-parent="#accordion" href="#collapse10">
         					SELECT</a>
       				</h4>		
     			</div>
-    			<div id="collapse11" class="panel-collapse collapse">
+    			<div id="collapse10" class="panel-collapse collapse">
       				<div class="panel-body">
 						Description: The SQL SELECT statement is used to display content of a particular table. Content is shown using some conditions.</br>
 						Syntax:</br>
@@ -435,7 +454,7 @@
 						Now to display entire content, the simplest SELECT query will be..</br>
 						<div class="qrs">SELECT * FROM categories;</div></br>
 						Thus it will show entire table. Now selecting particular row from table using WHERE clause..</br>
-						SELECT * FROM categories WHERE category_id = 75;</br>
+						<div class="qrs">SELECT * FROM categories WHERE category_id = 75;</div></br>
 						The results are as follows..
 						<center><div style="background: white; display: inline-block;"><table class="table table-striped" style="width: 20%">
 							<tr>
@@ -449,6 +468,184 @@
 						</table></div></center></br>
 						As shown, only one row gets selected!
 					</div>
+					<div class="panel-body">	
+						<b>ORDER BY</b> specifies an order in which to return the rows.
+						<br>SYNTAX:</br>
+						<div class="qrs">SELECT column1, column2,... FROM table_name ORDER BY column1, column2, ... ASC|DESC;</div>
+						Table is ordered by datatype of column and in ascending order by default.
+						EXAMPLE: 
+						<div class="qrs">SELECT * FROM categories ORDER BY category_name ASC;</div></br>
+						<center><div style="display: inline-block;"><table class="table table-striped" style="width: 20%">
+							<tr>
+								<th>category_id</th>
+								<th>category_name</th>
+							</tr>
+							<tr>
+								<td>75</td>
+								<td>Bakery</td>
+							</tr>
+							<tr>
+								<td>25</td>
+								<td>Deli</td>
+							</tr>
+
+							<tr>
+								<td>100</td>
+								<td>General Merchandise</td>
+							</tr>
+							<tr>
+								<td>50</td>
+								<td>Produce</td>
+							</tr>
+							<tr>
+								<td>125</td>
+								<td>Technology</td>
+							</tr>
+						</table></div></center>
+						As shown, Table is ORDER BY alphabetical order of column 'category_name'.
+						<br>
+					</div>
+					<div class="panel-footer">
+						MySQL supports the <b>LIMIT</b> clause to select a limited number of records.Returning a large number of records can impact on performance.
+						<div class="qrs">SELECT * FROM categories ORDER BY category_name LIMIT 3</div>
+						<center><div style="background: white; display: inline-block;"><table class="table table-striped" style="width: 20%">
+							<tr>
+								<th>category_id</th>
+								<th>category_name</th>
+							</tr>
+							<tr>
+								<td>75</td>
+								<td>Bakery</td>
+							</tr>
+							<tr>
+								<td>25</td>
+								<td>Deli</td>
+							</tr>
+
+							<tr>
+								<td>100</td>
+								<td>General Merchandise</td>
+							</tr>
+						</table></div></center>
+					</div>
+					<div class="panel-body">
+						<b>MIN(), MAX(), COUNT(), AVG() and SUM() FUNCTIONS</b><br>
+						SYNTAX:</br>
+						<div class="qrs">SELECT MIN|MAX|COUNT|AVG|SUM(column_name) FROM database_name;</div>
+						Consider table PRODUCTS..
+						<center><div style="display: inline-block;"><table class="table table-striped" style="width: 20%">
+							<tbody>
+								<tr>
+								    <th>ProductID</th>
+								    <th>ProductName</th>
+								    <th>SupplierID</th>
+								    <th>CategoryID</th>
+								    <th>Unit</th>
+								    <th>Price</th>
+						 		</tr>
+						  		<tr>
+								    <td>1</td>
+								    <td>Chais</td>
+								    <td>1</td>
+								    <td>1</td>
+								    <td>10</td>
+								    <td>18</td>
+								</tr>
+								  <tr>
+								    <td>2</td>
+								    <td>Chang</td>
+								    <td>1</td>
+								    <td>1</td>
+								    <td>24</td>
+								    <td>19</td>
+								  </tr>
+								  <tr>
+								    <td>3</td>
+								    <td>Aniseed Syrup</td>
+								    <td>1</td>
+								    <td>2</td>
+								    <td>12</td>
+								    <td>10</td>
+								  </tr>
+								  <tr>
+								    <td>4</td>
+								    <td>Cajun Seasoning</td>
+								    <td>2</td>
+								    <td>2</td>
+								    <td>48</td>
+								    <td>22</td>
+								  </tr>
+								  <tr>
+								    <td>5</td>
+								    <td>Gumbo Mix</td>
+								    <td>2</td>
+								    <td>2</td>
+								    <td>36</td>
+								    <td>21.35</td>
+								</tr>
+							</tbody>
+						</table></div></center>
+					</div>
+					<div class="panel-footer">
+						The <b>MIN()</b> function returns the smallest value of the selected column.<br>
+						EXAMPLE:</br>
+						<div class="qrs">SELECT MIN(price) FROM products;</div> 
+						<center><div style="background: white; display: inline-block;"><table class="table table-striped" style="width: 20%"><tbody><tr>
+							<th>MIN(price)</th>
+						</tr>
+						<tr>
+							<td>10</td>
+						</tr>
+						</tbody></table></div></center>
+					</div>
+					<div class="panel-body">
+						The <b>MAX()</b> function returns the largest value of the selected column.<br>
+						EXAMPLE:</br>
+						<div class="qrs">SELECT MAX(price) FROM products;</div>
+						<center><div style="background: white; display: inline-block;"><table class="table table-striped" style="width: 20%"><tbody><tr>
+							<th>MAX(price)</th>
+						</tr>
+						<tr>
+							<td>22</td>
+						</tr>
+						</tbody></table></div></center>
+					</div>
+					<div class="panel-footer">
+						The <b>COUNT()</b> function returns the number of rows that matches a specified criteria.<br>
+						EXAMPLE:</br>
+						<div class="qrs">SELECT COUNT(price) FROM PRODUCTS;</div>
+						<center><div style="background: white; display: inline-block;"><table class="table table-striped" style="width: 20%"><tbody><tr>
+							<th>COUNT(price)</th>
+						</tr>
+						<tr>
+							<td>5</td>
+						</tr>
+						</tbody></table></div></center>
+					</div>
+					<div class="panel-body">
+						The <b>AVG()</b> function returns the average value of a numeric column.<br>
+						EXAMPLE:</br>
+						<div class="qrs">SELECT AVG(price) FROM PRODUCTS;</div>
+						<center><div style="display: inline-block;"><table class="table table-striped" style="width: 20%"><tbody><tr>
+							<th>AVG(price)</th>
+						</tr>
+						<tr>
+							<td>18.07</td>
+						</tr>
+						</tbody></table></div></center>
+					</div>
+					<div class="panel-footer">
+						The <b>SUM()</b> function returns the total sum of a numeric column.<br>
+						EXAMPLE:</br>
+						<div class="qrs">SELECT SUM(price) FROM PRODUCTS;</div>
+						<center><div style="background: white; display: inline-block;"><table class="table table-striped" style="width: 20%"><tbody><tr>
+							<th>SUM(price)</th>
+						</tr>
+						<tr>
+							<td>90.35</td>
+						</tr>
+						</tbody></table></div></center>
+					</div>
     			</div>
   			</div>
 		</div>	<!--accordion END-->
@@ -457,7 +654,6 @@
 </html>
 
 <!--
-
 <div class="panel panel-default">
     			<div class="panel-heading">
       				<h4 class="panel-title">

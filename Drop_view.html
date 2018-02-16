@@ -55,7 +55,7 @@
         data: dataValues,
         success: function(result){
           document.getElementById('topheader').innerHTML = "Logout successfull. Redirecting to login page..&nbsp;<i class='fa fa-spinner fa-spin' aria-hidden='true'></i>";
-          setInterval(function(){window.location.replace("login.html")},2000);
+          setInterval(function(){window.location.replace("index.html")},2000);
         }
         });
       }
@@ -154,7 +154,7 @@
         <p id = "studentNo"></p>
         <hr>
       </div>
-    <a href="index.html"><i class="fa fa-home"></i> HOME</a>
+    <a href="home.html"><i class="fa fa-home"></i> HOME</a>
      <div class="w3-accordion">
       <a onclick="DropdownFunc(ddl)" href="#">
       <i class="fa fa-plus-square-o"></i> DDL Engine <i class="fa fa-caret-down"></i>
