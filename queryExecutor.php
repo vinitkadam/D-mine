@@ -27,7 +27,7 @@ case "addcol":
       if($conn->query($sql) === TRUE)
       {
         echo "column added successfully,refresh to see result...";
-        $log="INSERT INTO logs($roll_no,$sql,$currGMTime)";
+        $log="INSERT INTO logs('$roll_no','$sql','$currGMTime')";
         $con->query($log);
       }
       else
@@ -49,7 +49,7 @@ case "createTable":
       $sql = $query_Stat;
       if ($conn->query($sql) === TRUE) {
           echo "Table created successfully";
-          $log="INSERT INTO logs($roll_no,$sql,$currGMTime)";
+          $log="INSERT INTO logs(roll_no,query,logtime) values ('$roll_no','$sql','$currGMTime')";
           $con->query($log);
       } else {
           echo "Error creating table: " . $conn->error;
@@ -65,7 +65,7 @@ case "DropTable":
       $sql = $query_Stat;
       if ($conn->query($sql) === TRUE) {
           echo "Table dropped successfully";
-          $log="INSERT INTO logs($roll_no,$sql,$currGMTime)";
+          $log="INSERT INTO logs(roll_no,query,logtime) values ('$roll_no','$sql','$currGMTime')";
           $con->query($log);
       } else {
           echo "Error dropping table: " . $conn->error;
@@ -81,7 +81,7 @@ case "DropDatabase":
       $sql = $query_Stat;
       if ($conn->query($sql) === TRUE) {
           echo "Database dropped successfully";
-          $log="INSERT INTO logs($roll_no,$sql,$currGMTime)";
+          $log="INSERT INTO logs(roll_no,query,logtime) values ('$roll_no','$sql','$currGMTime')";
           $con->query($log);
       } else {
           echo "Error dropping Database: " . $conn->error;
@@ -96,7 +96,7 @@ case "TruncateTable":
 
 		if($conn->query($query_Stat)=== TRUE){
 			echo "Table truncated succesfully";
-      $log="INSERT INTO logs($roll_no,$sql,$currGMTime)";
+      $log="INSERT INTO logs(roll_no,query,logtime) values ('$roll_no','$sql','$currGMTime')";
       $con->query($log);
 		}
 		else{
@@ -135,7 +135,7 @@ case "SelectExecution":
 
         }
         echo "</table></p>";
-        $log="INSERT INTO logs($roll_no,$Sel_Cmd,$currGMTime)";
+        $log="INSERT INTO logs(roll_no,query,logtime) values ('$roll_no','$Sel_Cmd','$currGMTime')";
         $con->query($log);
 
         $result->free();
@@ -206,7 +206,7 @@ case "SelectExecution":
 
             if($conn->query($query_Stat)=== TRUE){
                 echo "columns addded succesfully";
-                $log="INSERT INTO logs($roll_no,$query_Stat,$currGMTime)";
+                $log="INSERT INTO logs(roll_no,query,logtime) values ('$roll_no','$query_Stat','$currGMTime')";
                 $con->query($log);
             }
             else{
@@ -223,7 +223,7 @@ case "SelectExecution":
             $sql = $query_Stat;
             if ($conn->query($sql) === TRUE) {
                 echo "Column(s) modified successfully";
-                $log="INSERT INTO logs($roll_no,$sql,$currGMTime)";
+                $log="INSERT INTO logs(roll_no,query,logtime) values ('$roll_no','$sql','$currGMTime')";
                 $con->query($log);
             } else {
                 echo "Error while modifying column(s) " . $conn->error;
@@ -238,7 +238,7 @@ case "SelectExecution":
 
             if($conn->query($query_Stat)===TRUE){
                 echo "Table renamed successfully";
-                $log="INSERT INTO logs($roll_no,$query_Stat,$currGMTime)";
+                $log="INSERT INTO logs(roll_no,query,logtime) values ('$roll_no','$query_Stat','$currGMTime')";
                 $con->query($log);
             }
             else{
@@ -254,7 +254,7 @@ case "SelectExecution":
 
             if($conn->query($query_Stat)===TRUE){
                 echo "Column Dropped successfully";
-                $log="INSERT INTO logs($roll_no,$query_Stat,$currGMTime)";
+                $log="INSERT INTO logs(roll_no,query,logtime) values ('$roll_no','$query_Stat','$currGMTime')";
                 $con->query($log);
             }
             else{
@@ -286,7 +286,7 @@ case "SelectExecution":
        if($result == true)
        {
             echo "Primary key sucessfully added";
-            $log="INSERT INTO logs($roll_no,$query_Stat,$currGMTime)";
+            $log="INSERT INTO logs(roll_no,query,logtime) values ('$roll_no','$query_Stat','$currGMTime')";
             $con->query($log);
        }
        else
@@ -301,7 +301,7 @@ case "SelectExecution":
        if($result == true)
        {
             echo "Primary Key successfully Droped";
-            $log="INSERT INTO logs($roll_no,$query_Stat,$currGMTime)";
+            $log="INSERT INTO logs(roll_no,query,logtime) values ('$roll_no','$query_Stat','$currGMTime')";
             $con->query($log);
        }
        else
@@ -316,7 +316,7 @@ case "SelectExecution":
        if($result == true)
        {
             echo "Unique key sucessfully added";
-            $log="INSERT INTO logs($roll_no,$query_Stat,$currGMTime)";
+            $log="INSERT INTO logs(roll_no,query,logtime) values ('$roll_no','$query_Stat','$currGMTime')";
             $con->query($log);
        }
        else
@@ -332,7 +332,7 @@ case "SelectExecution":
        if($result == true)
        {
             echo "Unique Key successfully Droped";
-            $log="INSERT INTO logs($roll_no,$query_Stat,$currGMTime)";
+            $log="INSERT INTO logs(roll_no,query,logtime) values ('$roll_no','$query_Stat','$currGMTime')";
             $con->query($log);
        }
        else
@@ -348,7 +348,7 @@ case "SelectExecution":
       if($result == true)
       {
           echo "Foreign Key successfully Added";
-          $log="INSERT INTO logs($roll_no,$query_Stat,$currGMTime)";
+          $log="INSERT INTO logs(roll_no,query,logtime) values ('$roll_no','$query_Stat','$currGMTime')";
           $con->query($log);
       }
       else
@@ -363,7 +363,7 @@ case "SelectExecution":
       if($result == true)
       {
           echo "Foreign Key successfully Droped";
-          $log="INSERT INTO logs($roll_no,$query_Stat,$currGMTime)";
+          $log="INSERT INTO logs(roll_no,query,logtime) values ('$roll_no','$query_Stat','$currGMTime')";
           $con->query($log);
       }
       else
@@ -403,7 +403,7 @@ case "SelectExecution":
 
             if ($conn->query($sql) === TRUE) {
                 echo "New record created successfully";
-                $log="INSERT INTO logs($roll_no,$sql,$currGMTime)";
+                $log="INSERT INTO logs(roll_no,query,logtime) values ('$roll_no','$query_Stat','$currGMTime')";
                 $con->query($log);
             } else {
                 echo "Error: " . $sql . "<br>" . $conn->error;
@@ -528,6 +528,8 @@ case "updatevalues":
 
 		if($conn->query($query_Stat)===TRUE){
 			echo "Values updated Successfully";
+      $log="INSERT INTO logs(roll_no,query,logtime) values ('$roll_no','$query_Stat','$currGMTime')";
+      $con->query($log);
 		}
 		else{
 			echo "Error occured. Try again..";
@@ -579,7 +581,7 @@ case "deleteselectall":
             $sql = $query_Stat;
             if ($conn->query($sql) === TRUE) {
                 echo "View created successfully";
-                $log="INSERT INTO logs($roll_no,$query_Stat,$currGMTime)";
+                $log="INSERT INTO logs(roll_no,query,logtime) values ('$roll_no','$sql','$currGMTime')";
                 $con->query($log);
             } else {
                 echo "Error creating table: " . $conn->error;
@@ -593,7 +595,7 @@ case "deleteselectall":
 
 		if($conn->query($query_Stat)===TRUE){
 			echo "Row deleted succesfully";
-      $log="INSERT INTO logs($roll_no,$query_Stat,$currGMTime)";
+      $log="INSERT INTO logs(roll_no,query,logtime) values ('$roll_no','$query_Stat','$currGMTime')";
       $con->query($log);
 		}
 		else{
@@ -627,7 +629,7 @@ case "deleteselectall":
             if(mysqli_query($conn,$query_Stat) == true)
             {
                 echo "View Rename sucessfully";
-                $log="INSERT INTO logs($roll_no,$query_Stat,$currGMTime)";
+                $log="INSERT INTO logs(roll_no,query,logtime) values ('$roll_no','$query_Stat','$currGMTime')";
                 $con->query($log);
             }
             else
